@@ -1,0 +1,99 @@
+[
+    {
+        "id": "p001",
+        "slug": "espresso-chocolates",
+        "title": "Espresso Chocolates",
+        "description": "Espresso chocolates with dark chocolate coating. A perfect blend of crunch and shot of Espresso.",
+        "images": [
+            "/images/featured_1.jpg"
+        ],
+        "price": 475,
+        "currency": "NPR",
+        "sku": "HB001",
+        "category": "infused-chocolates",
+        "tags": [
+            "espresso",
+            "handmade",
+            "dark chocolate"
+        ],
+        "variations": [
+            {
+                "name": "Size",
+                "options": [
+                    {
+                        "label": "5 pcs",
+                        "priceModifier": 0,
+                        "sku": "HB001-5"
+                    },
+                    {
+                        "label": "6 pcs",
+                        "priceModifier": 50,
+                        "sku": "HB001-6"
+                    },
+                    {
+                        "label": "12 pcs",
+                        "priceModifier": 525,
+                        "sku": "HB001-12"
+                    }
+                ]
+            }
+        ],
+        "seo": {
+            "title": "Hazelnut Truffle Box - Chocolates By PS",
+            "description": "Buy handmade hazelnut truffles in Nepal."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p002",
+        "slug": "customized-dark-chocolates",
+        "title": "Customized Dark Chocolates",
+        "description": "Customized dark chocolates with your choice of nuts.",
+        "images": [
+            "/images/featured_2.jpg",
+            "/images/bars.jpg"
+        ],
+        "price": 450,
+        "currency": "NPR",
+        "sku": "AP002",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "dark chocolate",
+            "nuts"
+        ],
+        "variations": [],
+        "seo": {
+            "title": "Customized Dark Chocolates - Chocolates By PS",
+            "description": "Customized dark chocolates with your choice of nuts."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p003",
+        "slug": "customized-milk-chocolates",
+        "title": "Customized Milk Chocolates",
+        "description": "Customized Milk chocolates with your choice of nuts.",
+        "images": [
+            "/images/milk_chocolate.jpg"
+        ],
+        "price": 400,
+        "currency": "NPR",
+        "sku": "AP003",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "milk chocolate",
+            "nuts"
+        ],
+        "variations": [],
+        "seo": {
+            "title": "Customized Milk Chocolates - Chocolates By PS",
+            "description": "Customized milk chocolates with your choice of nuts."
+        },
+        "inStock": true,
+        "isFeatured": true
+    }
+]

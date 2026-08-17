@@ -1,0 +1,40 @@
+[
+    {
+        "id": "t1",
+        "quote": "Best chocolate I've had in Kathmandu! The Aaila chocolates are to die for.",
+        "name": "Suraj Bahadur Shrestha",
+        "location": "Dhapakhel, Nepal",
+        "photo": "/images/boy.png",
+        "gender": "male"
+    },
+    {
+        "id": "t2",
+        "quote": "Ordered a gift box for a friend's anniversary. Beautiful packaging and amazing taste. Both of them enjoyed it",
+        "name": "Samundra Shrestha",
+        "location": "Lalitpur, Nepal",
+        "photo": "/images/boy_2.png",
+        "gender": "male"
+    },
+    {
+        "id": "t3",
+        "quote": "Finally, real authentic chocolates in Nepal. Highly recommended.",
+        "name": "Bibek Karki",
+        "location": "Satdobato, Nepal",
+        "photo": "/images/boy_3.png",
+        "gender": "male"
+    },
+    {
+        "id": "t4",
+        "quote": "Loved the packaging. Great for corporate gift giving!",
+        "name": "Santa Bahadur Shrestha",
+        "location": "Satdobato, Nepal",
+        "gender": "male"
+    },
+    {
+        "id": "t5",
+        "quote": "Such a cool choice of brand to go with. Love the presentation as well as the taste.",
+        "name": "Roshani Shrestha",
+        "location": "Kathmandu, Nepal",
+        "gender": "female"
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "date": "OCT 25",
+        "title": "Chocolate Tasting Night",
+        "location": "Kupondole Store, 6 PM"
+    },
+    {
+        "id": 2,
+        "date": "NOV 12",
+        "title": "Truffle Making Workshop",
+        "location": "Kupondole Store, 2 PM"
+    },
+    {
+        "id": 3,
+        "date": "DEC 05",
+        "title": "Holiday Gift Wrapping",
+        "location": "Kupondole Store, 4 PM"
+    },
+    {
+        "id": 4,
+        "date": "DEC 24",
+        "title": "Christmas Eve Special",
+        "location": "Kupondole Store, All Day"
+    }
+]
