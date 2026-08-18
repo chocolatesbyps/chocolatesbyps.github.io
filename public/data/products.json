@@ -5,7 +5,7 @@
         "title": "Espresso Chocolates",
         "description": "Espresso chocolates with dark chocolate coating. A perfect blend of crunch and shot of Espresso.",
         "images": [
-            "/images/featured_1.jpg"
+            "/images/products/featured_1.jpg"
         ],
         "price": 475,
         "currency": "NPR",
@@ -51,8 +51,9 @@
         "title": "Customized Dark Chocolates",
         "description": "Customized dark chocolates with your choice of nuts.",
         "images": [
-            "/images/featured_2.jpg",
-            "/images/bars.jpg"
+            "/images/products/featured_2.jpg",
+            "/images/products/bar.jpg",
+            "/images/products/dark_side.jpeg"
         ],
         "price": 450,
         "currency": "NPR",
@@ -75,9 +76,9 @@
         "id": "p003",
         "slug": "customized-milk-chocolates",
         "title": "Customized Milk Chocolates",
-        "description": "Customized Milk chocolates with your choice of nuts.",
+        "description": "Customized milk chocolates with your choice of nuts.",
         "images": [
-            "/images/milk_chocolate.jpg"
+            "/images/products/milk_chocolate.jpg"
         ],
         "price": 400,
         "currency": "NPR",
@@ -92,6 +93,109 @@
         "seo": {
             "title": "Customized Milk Chocolates - Chocolates By PS",
             "description": "Customized milk chocolates with your choice of nuts."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p004",
+        "slug": "customized-white-chocolates",
+        "title": "Customized White Chocolates",
+        "description": "Customized white chocolates with your choice of nuts.",
+        "images": [
+            "/images/products/white_chocolate.jpeg"
+        ],
+        "price": 400,
+        "currency": "NPR",
+        "sku": "AP004",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "white chocolate",
+            "nuts"
+        ],
+        "variations": [],
+        "seo": {
+            "title": "Customized White Chocolates - Chocolates By PS",
+            "description": "Customized white chocolates with your choice of nuts."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p005",
+        "slug": "customized-small-dark-chocolates",
+        "title": "Customized Small Dark Chocolates",
+        "description": "Customized Small dark chocolates with your choice of nuts.",
+        "images": [
+            "/images/products/dark_small.jpeg",
+            "/images/products/small_dark_side.jpeg"
+        ],
+        "price": 150,
+        "currency": "NPR",
+        "sku": "AP005",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "small dark chocolate",
+            "nuts"
+        ],
+        "variations": [],
+        "seo": {
+            "title": "Customized Small Dark Chocolates - Chocolates By PS",
+            "description": "Customized Small dark chocolates with your choice of nuts."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p006",
+        "slug": "customized-small-milk-chocolates",
+        "title": "Customized Small Milk Chocolates",
+        "description": "Customized small milk chocolates with your choice of nuts.",
+        "images": [
+            "/images/products/milk_small.jpeg",
+            "/images/products/small_milk_side.jpeg"
+        ],
+        "price": 150,
+        "currency": "NPR",
+        "sku": "AP006",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "small milk chocolate",
+            "nuts"
+        ],
+        "variations": [],
+        "seo": {
+            "title": "Customized Small Milk Chocolates - Chocolates By PS",
+            "description": "Customized small milk chocolates with your choice of nuts."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p007",
+        "slug": "customized-small-white-chocolates",
+        "title": "Customized Small White Chocolates",
+        "description": "Customized small white chocolates with your choice of nuts.",
+        "images": [
+            "/images/products/white_small.jpeg",
+            "/images/products/small_white_side.jpeg"
+        ],
+        "price": 150,
+        "currency": "NPR",
+        "sku": "AP007",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "small white chocolate",
+            "nuts"
+        ],
+        "variations": [],
+        "seo": {
+            "title": "Customized Small White Chocolates - Chocolates By PS",
+            "description": "Customized small white chocolates with your choice of nuts."
         },
         "inStock": true,
         "isFeatured": true

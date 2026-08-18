@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { fetchBlogPosts } from '../utils/api';
 import SEO from '../components/SEO';
-import { Search } from 'lucide-react';
+import { ArrowUpRight, Search } from 'lucide-react';
 
 const BlogList = () => {
     const [posts, setPosts] = useState([]);
@@ -44,98 +44,99 @@ const BlogList = () => {
         <>
             <SEO title="Blog" description="Stories, tips, and chocolate knowledge from Chocolates By PS." />
 
-            <div className="bg-amber-50 py-12 mb-8">
-                <div className="container mx-auto px-4 text-center">
-                    <h1 className="text-4xl font-bold font-serif text-amber-900 mb-2">Our Blog</h1>
-                    <p className="text-amber-800/80">Sweet stories and chocolate tips.</p>
-                </div>
-            </div>
+            <main className="journal-page">
+                <section className="journal-hero">
+                    <div className="journal-hero__ring journal-hero__ring--one" aria-hidden="true" />
+                    <div className="journal-hero__ring journal-hero__ring--two" aria-hidden="true" />
+                    <div className="container relative mx-auto px-4 py-16 text-center md:py-20">
+                        <p className="journal-eyebrow">The Chocolates By PS journal</p>
+                        <h1>Stories to savour</h1>
+                        <p>Thoughtful notes on chocolate, gifting, and the small moments worth sharing.</p>
+                    </div>
+                </section>
 
-            <div className="container mx-auto px-4 pb-16">
-                <div className="flex flex-col md:flex-row gap-12">
-                    {/* Main Content */}
-                    <div className="flex-1">
-                        {filteredPosts.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {filteredPosts.map(post => (
-                                    <Link key={post.id} to={`/blog/${post.slug}`} className="group block">
-                                        <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 h-full flex flex-col">
-                                            <div className="aspect-video overflow-hidden bg-gray-100">
+                <div className="journal-content container mx-auto px-4 py-10 md:py-14">
+                    <div className="journal-layout">
+                        {/* Main Content */}
+                        <section aria-label="Journal articles" className="min-w-0">
+                            <div className="journal-section-heading">
+                                <div>
+                                    <p className="journal-eyebrow">From our kitchen</p>
+                                    <h2>{tagFilter ? `${tagFilter} stories` : 'Latest from the journal'}</h2>
+                                </div>
+                                <span>{filteredPosts.length} {filteredPosts.length === 1 ? 'article' : 'articles'}</span>
+                            </div>
+                            {filteredPosts.length > 0 ? (
+                                <div className="journal-card-grid">
+                                    {filteredPosts.map(post => (
+                                        <Link key={post.id} to={`/blog/${post.slug}`} className="journal-card group">
+                                            <div className="journal-card__image">
                                                 <img
                                                     src={post.banner}
                                                     alt={post.title}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                                    loading="lazy"
+                                                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"
                                                 />
                                             </div>
-                                            <div className="p-6 flex-1 flex flex-col">
-                                                <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-hide pb-1">
-                                                    {post.tags.map(tag => (
-                                                        <span key={tag} className="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-1 rounded whitespace-nowrap flex-shrink-0">
-                                                            {tag}
-                                                        </span>
+                                            <div className="journal-card__body">
+                                                <div className="journal-card__tags">
+                                                    {post.tags.slice(0, 2).map(tag => (
+                                                        <span key={tag}>{tag}</span>
                                                     ))}
                                                 </div>
-                                                <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-amber-700 transition">
-                                                    {post.title}
-                                                </h2>
-                                                <p className="text-gray-600 text-sm mb-4 flex-1">
-                                                    {post.excerpt}
-                                                </p>
-                                                <div className="flex justify-between items-center text-xs text-gray-500 mt-auto pt-4 border-t border-gray-100">
-                                                    <span>{post.author}</span>
+                                                <h2>{post.title}</h2>
+                                                <p>{post.excerpt}</p>
+                                                <div className="journal-card__footer">
                                                     <span>{post.date}</span>
+                                                    <span className="journal-read-link">Read story <ArrowUpRight aria-hidden="true" /></span>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-center text-gray-500 py-12">No posts found matching your criteria.</p>
-                        )}
-                    </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="journal-empty">
+                                    <h2>No stories found</h2>
+                                    <p>Try a different word or explore all of our journal entries.</p>
+                                    <Link to="/blog">View all stories</Link>
+                                </div>
+                            )}
+                        </section>
 
-                    {/* Sidebar */}
-                    <div className="md:w-80 flex-shrink-0 space-y-8">
-                        {/* Search */}
-                        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                            <h3 className="font-bold text-gray-900 mb-4">Search</h3>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="Search posts..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
-                                />
-                                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3" />
+                        {/* Sidebar */}
+                        <aside className="journal-sidebar" aria-label="Blog filters">
+                            <div className="journal-sidebar__intro">
+                                <p className="journal-eyebrow">A little pause</p>
+                                <p>Made in Nepal, one small batch at a time.</p>
                             </div>
-                        </div>
-
-                        {/* Tags */}
-                        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                            <h3 className="font-bold text-gray-900 mb-4">Tags</h3>
-                            <div className="flex flex-wrap gap-2">
-                                <Link
-                                    to="/blog"
-                                    className={`px-3 py-1 rounded-full text-sm border transition ${!tagFilter ? 'bg-amber-900 text-white border-amber-900' : 'bg-white text-gray-600 border-gray-200 hover:border-amber-500'}`}
-                                >
-                                    All
-                                </Link>
-                                {allTags.map(tag => (
-                                    <Link
-                                        key={tag}
-                                        to={`/blog?tag=${tag}`}
-                                        className={`px-3 py-1 rounded-full text-sm border transition ${tagFilter === tag ? 'bg-amber-900 text-white border-amber-900' : 'bg-white text-gray-600 border-gray-200 hover:border-amber-500'}`}
-                                    >
-                                        {tag}
-                                    </Link>
-                                ))}
+                            <div className="journal-filter">
+                                <label htmlFor="blog-search">Search the journal</label>
+                                <div className="journal-search-field">
+                                    <Search className="h-4 w-4" aria-hidden="true" />
+                                    <input
+                                        id="blog-search"
+                                        type="search"
+                                        placeholder="Search stories"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
                             </div>
-                        </div>
+                            <div className="journal-filter">
+                                <h2>Explore by topic</h2>
+                                <div className="journal-tag-list">
+                                    <Link to="/blog" className={!tagFilter ? 'is-active' : ''}>All stories</Link>
+                                    {allTags.map(tag => (
+                                        <Link key={tag} to={`/blog?tag=${tag}`} className={tagFilter === tag ? 'is-active' : ''}>
+                                            {tag}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </aside>
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     );
 };

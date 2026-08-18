@@ -1,4 +1,5 @@
 const CART_KEY = 'chocolates_by_ps_cart';
+const BOOKMARKS_KEY = 'chocolates_by_ps_bookmarks';
 
 export const getCart = () => {
     try {
@@ -27,5 +28,23 @@ export const clearCart = () => {
         localStorage.removeItem(CART_KEY);
     } catch (error) {
         console.error('Error clearing cart from localStorage:', error);
+    }
+};
+
+export const getBookmarks = () => {
+    try {
+        const storedBookmarks = localStorage.getItem(BOOKMARKS_KEY);
+        return storedBookmarks ? JSON.parse(storedBookmarks) : [];
+    } catch (error) {
+        console.error('Error reading bookmarks from localStorage:', error);
+        return [];
+    }
+};
+
+export const saveBookmarks = (bookmarks) => {
+    try {
+        localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+    } catch (error) {
+        console.error('Error saving bookmarks to localStorage:', error);
     }
 };

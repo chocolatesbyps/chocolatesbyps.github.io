@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { fetchBlogPosts } from '../utils/api';
 import SEO from '../components/SEO';
-import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Calendar, User } from 'lucide-react';
 
 const BlogPost = () => {
     const { slug } = useParams();
@@ -48,73 +48,74 @@ const BlogPost = () => {
                 type="article"
             />
 
-            <article className="pb-16">
-                {/* Header */}
-                <div className="bg-amber-50 py-12 mb-8">
-                    <div className="container mx-auto px-4 max-w-4xl">
-                        <Link to="/blog" className="inline-flex items-center gap-2 text-amber-700 font-medium mb-6 hover:text-amber-900">
-                            <ArrowLeft className="w-4 h-4" /> Back to Blog
+            <article className="article-page">
+                <header className="article-masthead">
+                    <div className="article-masthead__ring article-masthead__ring--one" aria-hidden="true" />
+                    <div className="article-masthead__ring article-masthead__ring--two" aria-hidden="true" />
+                    <div className="container relative mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-16">
+                        <Link to="/blog" className="article-back-link">
+                            <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to journal
                         </Link>
-                        <h1 className="text-3xl md:text-5xl font-bold font-serif text-gray-900 mb-6 leading-tight">
-                            {post.title}
-                        </h1>
-                        <div className="flex items-center gap-6 text-gray-600 text-sm">
-                            <div className="flex items-center gap-2">
-                                <User className="w-4 h-4" /> {post.author}
+                        <div className="article-header-content">
+                            <div className="article-header-tags">
+                                {post.tags.slice(0, 2).map(tag => <span key={tag}>{tag}</span>)}
                             </div>
-                            <div className="flex items-center gap-2">
-                                <Calendar className="w-4 h-4" /> {post.date}
+                            <h1>{post.title}</h1>
+                            <p>{post.excerpt}</p>
+                            <div className="article-byline">
+                                <span><User className="h-4 w-4" aria-hidden="true" /> {post.author}</span>
+                                <span><Calendar className="h-4 w-4" aria-hidden="true" /> {post.date}</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </header>
 
-                <div className="container mx-auto px-4 max-w-4xl">
-                    {/* Banner Image */}
-                    <div className="rounded-xl overflow-hidden mb-12 shadow-sm flex justify-center bg-gray-50">
-                        <img src={post.banner} alt={post.title} className="max-w-full max-h-[350px] object-contain" />
+                <div className="article-shell container mx-auto max-w-5xl px-4 pb-16 pt-8 md:px-6 md:pb-24 md:pt-12">
+                    <figure className="article-banner">
+                        <img src={post.banner} alt={post.title} className="h-full w-full object-cover" />
+                        <figcaption>Handmade moments from Chocolates By PS</figcaption>
+                    </figure>
+
+                    <div className="article-reading-column">
+                        <div
+                            className="article-content"
+                            dangerouslySetInnerHTML={{ __html: post.content }}
+                        />
+
+                        <section className="article-tags" aria-labelledby="article-topics">
+                            <h2 id="article-topics">Explore this story</h2>
+                            <div>
+                                {post.tags.map(tag => (
+                                    <Link key={tag} to={`/blog?tag=${tag}`}>{tag}</Link>
+                                ))}
+                            </div>
+                        </section>
                     </div>
 
-                    {/* Content */}
-                    <div
-                        className="prose prose-lg prose-amber max-w-none mb-16"
-                        dangerouslySetInnerHTML={{ __html: post.content }}
-                    />
-
-                    {/* Tags */}
-                    <div className="border-t border-gray-100 pt-8 mb-12">
-                        <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Tags</h3>
-                        <div className="flex gap-2">
-                            {post.tags.map(tag => (
-                                <Link
-                                    key={tag}
-                                    to={`/blog?tag=${tag}`}
-                                    className="bg-gray-100 hover:bg-amber-100 text-gray-700 hover:text-amber-800 px-3 py-1 rounded-full text-sm transition"
-                                >
-                                    {tag}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Related Posts */}
                     {relatedPosts.length > 0 && (
-                        <div className="bg-gray-50 rounded-2xl p-8">
-                            <h3 className="text-2xl font-bold font-serif text-gray-900 mb-6">Related Articles</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <section className="related-stories" aria-labelledby="related-stories-heading">
+                            <div className="related-stories__heading">
+                                <div>
+                                    <p className="journal-eyebrow">Keep reading</p>
+                                    <h2 id="related-stories-heading">More to savour</h2>
+                                </div>
+                                <Link to="/blog">All stories <ArrowUpRight aria-hidden="true" /></Link>
+                            </div>
+                            <div className="related-stories__grid">
                                 {relatedPosts.map(related => (
-                                    <Link key={related.id} to={`/blog/${related.slug}`} className="group block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
-                                        <div className="aspect-video overflow-hidden">
-                                            <img src={related.banner} alt={related.title} className="w-full h-full object-cover group-hover:scale-105 transition" />
+                                    <Link key={related.id} to={`/blog/${related.slug}`} className="related-story group">
+                                        <div className="related-story__image">
+                                            <img src={related.banner} alt={related.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]" />
                                         </div>
-                                        <div className="p-4">
-                                            <h4 className="font-bold text-gray-900 group-hover:text-amber-700 transition mb-2">{related.title}</h4>
-                                            <p className="text-sm text-gray-600 line-clamp-2">{related.excerpt}</p>
+                                        <div className="related-story__body">
+                                            <span>{related.date}</span>
+                                            <h3>{related.title}</h3>
+                                            <p>{related.excerpt}</p>
                                         </div>
                                     </Link>
                                 ))}
                             </div>
-                        </div>
+                        </section>
                     )}
                 </div>
             </article>
