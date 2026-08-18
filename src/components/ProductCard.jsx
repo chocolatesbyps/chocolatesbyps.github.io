@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag } from 'lucide-react';
+import { Bookmark, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useBookmarks } from '../context/BookmarkContext';
 
 const ProductCard = ({ product }) => {
     const { addToCart } = useCart();
+    const { isBookmarked, toggleBookmark } = useBookmarks();
+    const bookmarked = isBookmarked(product.id);
 
     const handleQuickAdd = (e) => {
         e.preventDefault();
         addToCart(product);
+    };
+
+    const handleBookmark = (e) => {
+        e.preventDefault();
+        toggleBookmark(product);
     };
 
     return (
@@ -25,6 +33,15 @@ const ProductCard = ({ product }) => {
                             Sale
                         </span>
                     )}
+                    <button
+                        type="button"
+                        onClick={handleBookmark}
+                        className={`product-bookmark absolute top-3 right-3 ${bookmarked ? 'is-saved' : ''}`}
+                        aria-label={`${bookmarked ? 'Remove' : 'Save'} ${product.title} ${bookmarked ? 'from' : 'to'} bookmarks`}
+                        aria-pressed={bookmarked}
+                    >
+                        <Bookmark className="h-4 w-4" fill={bookmarked ? 'currentColor' : 'none'} />
+                    </button>
                 </div>
                 <div className="p-4 flex-1 flex flex-col">
                     <h3 className="font-bold text-[#f4eee7] group-hover:text-[#e7a86d] transition mb-1 truncate" title={product.title}>{product.title}</h3>

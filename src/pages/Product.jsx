@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../utils/api';
 import { useCart } from '../context/CartContext';
+import { useBookmarks } from '../context/BookmarkContext';
 import SEO from '../components/SEO';
-import { Minus, Plus, ShoppingBag, X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { Bookmark, Minus, Plus, ShoppingBag, X, ZoomIn, ZoomOut, RotateCcw, ShieldCheck, Truck } from 'lucide-react';
 
 const Product = () => {
     const { slug } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart();
+    const { isBookmarked, toggleBookmark } = useBookmarks();
 
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -47,6 +49,17 @@ const Product = () => {
         loadProduct();
     }, [slug, navigate]);
 
+    useEffect(() => {
+        if (!isImageViewerOpen) return undefined;
+
+        const closeOnEscape = (event) => {
+            if (event.key === 'Escape') setIsImageViewerOpen(false);
+        };
+
+        window.addEventListener('keydown', closeOnEscape);
+        return () => window.removeEventListener('keydown', closeOnEscape);
+    }, [isImageViewerOpen]);
+
     if (loading) return <div className="container mx-auto px-4 py-16 text-center">Loading...</div>;
     if (!product) return null;
 
@@ -57,6 +70,8 @@ const Product = () => {
     const handleAddToCart = () => {
         addToCart(product, quantity, selectedVariation);
     };
+
+    const bookmarked = isBookmarked(product?.id);
 
     const openImageViewer = () => {
         setImageZoom(1);
@@ -88,128 +103,160 @@ const Product = () => {
                 })}
             </script>
 
-            <div className="container mx-auto px-4 py-8 md:py-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <main className="product-page">
+                <div className="product-page__glow product-page__glow--top" aria-hidden="true" />
+                <div className="product-page__glow product-page__glow--bottom" aria-hidden="true" />
+                <div className="product-page__container container mx-auto px-4 py-7 md:px-6 md:py-12">
+                    <nav aria-label="Breadcrumb" className="product-breadcrumb">
+                        <Link to="/">Home</Link>
+                        <span aria-hidden="true">/</span>
+                        <Link to="/category/all">Shop</Link>
+                        <span aria-hidden="true">/</span>
+                        <span aria-current="page">{product.title}</span>
+                    </nav>
+
+                    <div className="grid grid-cols-1 gap-9 lg:grid-cols-[minmax(0,1.04fr)_minmax(22rem,.96fr)] lg:gap-16">
                     {/* Image Gallery */}
-                    <div className="space-y-4">
+                    <section className="product-gallery" aria-label={`${product.title} gallery`}>
                         <button
                             type="button"
                             onClick={openImageViewer}
                             aria-label={`Zoom in on ${product.title}`}
-                            className="group relative block aspect-square w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-100"
+                            className="product-hero-image group relative block aspect-square w-full overflow-hidden"
                         >
                             <img
                                 src={product.images[selectedImage]}
                                 alt={product.title}
-                                className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"
                             />
-                            <span className="absolute bottom-3 right-3 rounded-full bg-white/90 p-2 text-amber-900 shadow-sm">
+                            <span className="product-zoom-cue absolute bottom-4 right-4" aria-hidden="true">
                                 <ZoomIn className="h-5 w-5" />
                             </span>
                         </button>
                         {product.images.length > 1 && (
-                            <div className="grid grid-cols-4 gap-4">
+                            <div className="product-thumbnails" aria-label="Choose a product image">
                                 {product.images.map((img, idx) => (
                                     <button
                                         key={idx}
+                                        type="button"
                                         onClick={() => setSelectedImage(idx)}
-                                        className={`aspect-square rounded-md overflow-hidden border-2 ${selectedImage === idx ? 'border-amber-600' : 'border-transparent'}`}
+                                        aria-label={`Show image ${idx + 1} of ${product.images.length}`}
+                                        aria-current={selectedImage === idx ? 'true' : undefined}
+                                        className={`product-thumbnail ${selectedImage === idx ? 'is-active' : ''}`}
                                     >
-                                        <img src={img} alt={`${product.title} ${idx + 1}`} className="w-full h-full object-cover" />
+                                        <img src={img} alt="" className="h-full w-full object-cover" />
                                     </button>
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </section>
 
                     {/* Product Info */}
-                    <div>
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 font-serif mb-2">{product.title}</h1>
-                        <div className="flex items-baseline gap-4 mb-6">
-                            <span className="text-2xl font-bold text-amber-900">
+                    <section className="product-summary">
+                        <p className="product-kicker">Chocolates By PS <span aria-hidden="true">•</span> Artisan confection</p>
+                        <div className="product-title-row">
+                            <h1>{product.title}</h1>
+                            {product.compareAtPrice && <span className="product-collection-badge">Giftable</span>}
+                        </div>
+                        <div className="product-price-row">
+                            <span className="product-price">
                                 {product.currency} {currentPrice.toFixed(2)}
                             </span>
                             {product.compareAtPrice && (
-                                <span className="text-lg text-gray-400 line-through">
+                                <span className="product-compare-price">
                                     {product.currency} {product.compareAtPrice.toFixed(2)}
                                 </span>
                             )}
                         </div>
 
-                        <p className="text-gray-600 mb-8 leading-relaxed">
+                        <p className="product-description">
                             {product.description}
                         </p>
 
                         {/* Variations */}
                         {product.variations && product.variations.map((variation, idx) => (
-                            <div key={idx} className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <fieldset key={idx} className="product-options">
+                                <legend>
                                     {variation.name}
-                                </label>
-                                <div className="flex flex-wrap gap-2">
+                                    {selectedVariation?.name === variation.name && <span> — {selectedVariation.label}</span>}
+                                </legend>
+                                <div className="product-option-list">
                                     {variation.options.map((option) => (
                                         <button
                                             key={option.sku}
+                                            type="button"
                                             onClick={() => setSelectedVariation({ name: variation.name, ...option })}
-                                            className={`px-4 py-2 rounded-full border text-sm transition ${selectedVariation?.sku === option.sku
-                                                    ? 'bg-amber-900 text-white border-amber-900'
-                                                    : 'bg-white text-gray-700 border-gray-200 hover:border-amber-500'
-                                                }`}
+                                            aria-pressed={selectedVariation?.sku === option.sku}
+                                            className={`product-option ${selectedVariation?.sku === option.sku ? 'is-selected' : ''}`}
                                         >
                                             {option.label}
                                         </button>
                                     ))}
                                 </div>
-                            </div>
+                            </fieldset>
                         ))}
 
                         {/* Quantity & Add to Cart */}
-                        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                            <div className="flex items-center border border-gray-300 rounded-lg w-fit">
+                        <div className="product-purchase-area">
+                            <div className="product-quantity" aria-label="Quantity selector">
                                 <button
+                                    type="button"
                                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                    className="p-3 hover:text-amber-700 transition"
+                                    className="product-quantity-button"
+                                    aria-label="Decrease quantity"
+                                    disabled={quantity === 1}
                                 >
                                     <Minus className="w-4 h-4" />
                                 </button>
-                                <span className="w-12 text-center font-medium">{quantity}</span>
+                                <output className="product-quantity-value" aria-live="polite">{quantity}</output>
                                 <button
+                                    type="button"
                                     onClick={() => setQuantity(quantity + 1)}
-                                    className="p-3 hover:text-amber-700 transition"
+                                    className="product-quantity-button"
+                                    aria-label="Increase quantity"
                                 >
                                     <Plus className="w-4 h-4" />
                                 </button>
                             </div>
 
+                            <button type="button" onClick={handleAddToCart} className="product-add-button">
+                                <ShoppingBag className="w-5 h-5" aria-hidden="true" /> Add {quantity} to bag
+                            </button>
                             <button
-                                onClick={handleAddToCart}
-                                className="flex-1 bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-lg font-bold transition flex items-center justify-center gap-2"
+                                type="button"
+                                onClick={() => toggleBookmark(product)}
+                                className={`product-save-button ${bookmarked ? 'is-saved' : ''}`}
+                                aria-label={`${bookmarked ? 'Remove' : 'Save'} ${product.title} ${bookmarked ? 'from' : 'to'} bookmarks`}
+                                aria-pressed={bookmarked}
                             >
-                                <ShoppingBag className="w-5 h-5" />
-                                Add to Cart
+                                <Bookmark className="h-5 w-5" fill={bookmarked ? 'currentColor' : 'none'} />
+                                <span>{bookmarked ? 'Saved for later' : 'Save for later'}</span>
                             </button>
                         </div>
 
-                        {/* Additional Info Tabs (Simplified) */}
-                        <div className="border-t border-gray-100 pt-6 space-y-4">
-                            <div className="flex gap-2">
+                        <div className="product-assurances" aria-label="Product assurances">
+                            <div><ShieldCheck aria-hidden="true" /><span>Made in small batches</span></div>
+                            <div><Truck aria-hidden="true" /><span>Carefully packed for delivery</span></div>
+                        </div>
+
+                        <div className="product-meta">
+                            <div className="product-tags">
                                 {product.tags && product.tags.map(tag => (
-                                    <span key={tag} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs uppercase tracking-wide">
+                                    <span key={tag}>
                                         {tag}
                                     </span>
                                 ))}
                             </div>
-                            <div className="text-sm text-gray-500">
-                                SKU: {selectedVariation ? selectedVariation.sku : product.sku}
-                            </div>
+                            <p>SKU: <span>{selectedVariation ? selectedVariation.sku : product.sku}</span></p>
                         </div>
+                    </section>
                     </div>
                 </div>
-            </div>
+            </main>
 
             {isImageViewerOpen && (
                 <div
-                    className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4"
+                    className="product-image-viewer fixed inset-0 z-[60] flex items-center justify-center p-4"
                     role="dialog"
                     aria-modal="true"
                     aria-label={`${product.title} image viewer`}
@@ -219,12 +266,12 @@ const Product = () => {
                         type="button"
                         onClick={() => setIsImageViewerOpen(false)}
                         aria-label="Close image viewer"
-                        className="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/20"
+                        className="product-viewer-close absolute right-4 top-4"
                     >
                         <X className="h-6 w-6" />
                     </button>
                     <div className="flex max-h-full max-w-5xl flex-col items-center gap-4" onClick={(event) => event.stopPropagation()}>
-                        <div className="max-h-[75vh] overflow-hidden rounded-lg bg-white/5">
+                        <div className="product-viewer-image max-h-[75vh] overflow-hidden">
                             <img
                                 src={product.images[selectedImage]}
                                 alt={product.title}
@@ -232,11 +279,11 @@ const Product = () => {
                                 className="max-h-[75vh] max-w-full object-contain transition-transform duration-200"
                             />
                         </div>
-                        <div className="flex items-center gap-2 rounded-full bg-white px-3 py-2 shadow-lg">
-                            <button type="button" onClick={() => setImageZoom(Math.max(1, imageZoom - 0.25))} className="rounded-full p-2 text-gray-700 hover:bg-gray-100" aria-label="Zoom out"><ZoomOut className="h-5 w-5" /></button>
-                            <span className="min-w-14 text-center text-sm font-medium text-gray-700">{Math.round(imageZoom * 100)}%</span>
-                            <button type="button" onClick={() => setImageZoom(Math.min(3, imageZoom + 0.25))} className="rounded-full p-2 text-gray-700 hover:bg-gray-100" aria-label="Zoom in"><ZoomIn className="h-5 w-5" /></button>
-                            <button type="button" onClick={() => setImageZoom(1)} className="rounded-full p-2 text-gray-700 hover:bg-gray-100" aria-label="Reset zoom"><RotateCcw className="h-5 w-5" /></button>
+                        <div className="product-viewer-tools flex items-center gap-2 px-3 py-2">
+                            <button type="button" onClick={() => setImageZoom(Math.max(1, imageZoom - 0.25))} aria-label="Zoom out"><ZoomOut className="h-5 w-5" /></button>
+                            <span className="min-w-14 text-center text-sm font-medium">{Math.round(imageZoom * 100)}%</span>
+                            <button type="button" onClick={() => setImageZoom(Math.min(3, imageZoom + 0.25))} aria-label="Zoom in"><ZoomIn className="h-5 w-5" /></button>
+                            <button type="button" onClick={() => setImageZoom(1)} aria-label="Reset zoom"><RotateCcw className="h-5 w-5" /></button>
                         </div>
                     </div>
                 </div>

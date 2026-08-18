@@ -56,8 +56,8 @@ const Footer = () => {
                 </div>
 
                 <div className="border-t border-amber-900 pt-6 text-center text-amber-200/60 text-sm">
-                    <p>&copy; {new Date().getFullYear()} Chocolates By PS. All rights reserved.</p>
-                    <p>Powered By: Tech Services Alliance Pvt. Ltd.</p>
+                    <p>&copy;{new Date().getFullYear()} <b>Chocolates By PS</b>. All rights reserved.</p>
+                    <p>Powered By : <b>Tech Services Alliance Pvt. Ltd.</b></p>
                 </div>
             </div>
         </footer>

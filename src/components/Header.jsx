@@ -1,17 +1,25 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Menu, X } from 'lucide-react';
+import { Bookmark, ShoppingBag, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useBookmarks } from '../context/BookmarkContext';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { cartItemCount, recentAddedItem } = useCart();
+    const { bookmarks } = useBookmarks();
 
     return (
         <header className="site-header sticky top-0 z-50">
             <div className="header-inner container mx-auto px-4 py-3 flex justify-between items-center">
-                <Link to="/" className="brand-mark">
-                    <span className="brand-dot" /> Chocolates <em>By PS</em>
+                <Link to="/" className="brand-mark" aria-label="Chocolates By PS home">
+                    <img
+                        src="/images/logo.png"
+                        alt="Chocolates By PS"
+                        width="500"
+                        height="500"
+                        className="brand-logo"
+                    />
                 </Link>
 
                 {/* Desktop Nav */}
@@ -24,6 +32,14 @@ const Header = () => {
                 </nav>
 
                 <div className="flex items-center space-x-4">
+                    <Link to="/bookmarks" className="bookmark-link relative transition" aria-label={`Saved chocolates${bookmarks.length ? ` (${bookmarks.length})` : ''}`}>
+                        <Bookmark className="w-5 h-5" />
+                        {bookmarks.length > 0 && (
+                            <span className="bookmark-count absolute -top-2 -right-2 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                {bookmarks.length}
+                            </span>
+                        )}
+                    </Link>
                     <div className="relative">
                         <Link to="/cart" className="cart-link relative transition block">
                             <ShoppingBag className="w-6 h-6" />
