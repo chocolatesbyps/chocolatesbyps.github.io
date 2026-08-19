@@ -1,222 +1,111 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import SEO from '../components/SEO';
-import { Mail, Phone, MapPin, Send, Facebook, Instagram, Music2 } from 'lucide-react';
+import { ArrowDown, Check, Facebook, Instagram, Mail, MapPin, MessageCircleHeart, Music2, Phone, Send, Sparkles } from 'lucide-react';
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-    });
+    const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
     const [errors, setErrors] = useState({});
     const [submitted, setSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
+    const errorSummaryRef = useRef(null);
 
     const validate = () => {
-        const newErrors = {};
-        if (!formData.name.trim()) newErrors.name = 'Name is required';
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Email is invalid';
-        }
-        if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
-        if (!formData.message.trim()) newErrors.message = 'Message is required';
-        return newErrors;
+        const nextErrors = {};
+        if (!formData.name.trim()) nextErrors.name = 'Please tell us your name.';
+        if (!formData.email.trim()) nextErrors.email = 'Please share your email address.';
+        else if (!/\S+@\S+\.\S+/.test(formData.email)) nextErrors.email = 'Please enter a valid email address.';
+        if (!formData.subject.trim()) nextErrors.subject = 'Please add a subject.';
+        if (!formData.message.trim()) nextErrors.message = 'Please include a message.';
+        return nextErrors;
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-        // Clear error when user types
-        if (errors[name]) {
-            setErrors(prev => ({ ...prev, [name]: '' }));
-        }
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((current) => ({ ...current, [name]: value }));
+        if (errors[name]) setErrors((current) => ({ ...current, [name]: '' }));
+        if (submitError) setSubmitError('');
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         const validationErrors = validate();
-        if (Object.keys(validationErrors).length > 0) {
+        if (Object.keys(validationErrors).length) {
             setErrors(validationErrors);
-        } else {
-            setIsSubmitting(true);
-            try {
-                const response = await fetch("https://formsubmit.co/ajax/pramitshrest@gmail.com", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: formData.name,
-                        email: formData.email,
-                        message: formData.message,
-                        _subject: `New Contact Form Submission: ${formData.subject}`,
-                        _template: 'table'
-                    })
-                });
-
-                if (response.ok) {
-                    setSubmitted(true);
-                    setFormData({ name: '', email: '', subject: '', message: '' });
-                    // Keep the thank you message visible for longer or indefinitely until user navigates away
-                    // setTimeout(() => setSubmitted(false), 5000); 
-                } else {
-                    console.error("Form submission failed");
-                    alert("Something went wrong. Please try again later.");
-                }
-            } catch (error) {
-                console.error("Error submitting form:", error);
-                alert("There was an error sending your message. Please try again.");
-            } finally {
-                setIsSubmitting(false);
-            }
+            requestAnimationFrame(() => errorSummaryRef.current?.focus());
+            return;
+        }
+        setIsSubmitting(true);
+        setSubmitError('');
+        try {
+            const response = await fetch('https://formsubmit.co/ajax/pramitshrest@gmail.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({ name: formData.name, email: formData.email, message: formData.message, _subject: `New Contact Form Submission: ${formData.subject}`, _template: 'table' })
+            });
+            if (!response.ok) throw new Error('Form submission failed');
+            setSubmitted(true);
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setSubmitError('We could not send your note just now. Please try again, or email us directly.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
+
+    const fieldProps = (name) => ({ id: name, name, value: formData[name], onChange: handleChange, required: true, 'aria-invalid': Boolean(errors[name]), 'aria-describedby': errors[name] ? `${name}-error` : undefined });
 
     return (
         <>
             <SEO title="Contact Us" />
-
-            <div className="contact-hero py-10 mb-4">
-                <div className="container mx-auto px-4 text-center">
-                    <h1 className="text-4xl font-bold font-serif text-amber-900 mb-2">Get in Touch</h1>
-                    <p className="text-amber-800/80">We'd love to hear from you.</p>
-                </div>
-            </div>
-
-            <div className="contact-page container mx-auto px-4 py-5 pb-12">
-                <div className="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto">
-                    {/* Contact Info */}
-                    <div className="contact-info md:w-1/3 space-y-5">
-                        <div>
-                            <h3 className="text-xl font-bold font-serif text-gray-900 mb-4">Contact Information</h3>
-                            <p className="text-gray-600 mb-6">
-                                Have a question about our chocolates or want to place a custom order? Reach out to us!
-                            </p>
-
-                            <ul className="space-y-6">
-                                <li className="flex items-start gap-4">
-                                    <div className="bg-amber-100 p-3 rounded-full text-amber-800">
-                                        <MapPin className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-gray-900">Visit Us</h4>
-                                        <p className="text-gray-600">Satdobato, Lalitpur<br />Nepal</p>
-                                    </div>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <div className="bg-amber-100 p-3 rounded-full text-amber-800">
-                                        <Mail className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-gray-900">Email Us</h4>
-                                        <a href="mailto:pramitshrest@gmail.com" className="text-gray-600 hover:text-amber-700">chocolatesbyps@gmail.com</a>
-                                    </div>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <div className="bg-amber-100 p-3 rounded-full text-amber-800">
-                                        <Phone className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-gray-900">Call Us</h4>
-                                        <a href="tel:+9779810000000" className="text-gray-600 hover:text-amber-700">+977 9840099441</a>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div className="contact-socials mt-7 pt-5">
-                                <p className="eyebrow mb-3">Follow along</p>
-                                <div className="flex items-center gap-3">
-                                    <a href="https://www.facebook.com/share/1A8HJtpNxX/" target="_blank" rel="noreferrer" aria-label="Facebook" className="social-link"><Facebook className="w-5 h-5" /></a>
-                                    <a href="https://www.instagram.com/chocolatesbyps?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noreferrer" aria-label="Instagram" className="social-link"><Instagram className="w-5 h-5" /></a>
-                                    <a href="https://www.tiktok.com/@chocolates.by.ps?is_from_webapp=1&sender_device=pc" target="_blank" rel="noreferrer" aria-label="TikTok" className="social-link"><Music2 className="w-5 h-5" /></a>
-                                </div>
-                            </div>
-                        </div>
+            <section className="contact-hero contact-hero--rich" aria-labelledby="contact-heading">
+                <div className="contact-hero__orb contact-hero__orb--one" aria-hidden="true" /><div className="contact-hero__orb contact-hero__orb--two" aria-hidden="true" />
+                <div className="contact-hero__truffle contact-hero__truffle--one" aria-hidden="true" /><div className="contact-hero__truffle contact-hero__truffle--two" aria-hidden="true" /><div className="contact-hero__ribbon" aria-hidden="true" />
+                <div className="contact-hero__inner container mx-auto px-4">
+                    <div>
+                        <p className="contact-hero__eyebrow"><Sparkles aria-hidden="true" /> A little note can start something sweet</p>
+                        <h1 id="contact-heading">Let’s make<br /><em>something delicious.</em></h1>
+                        <p>From a thoughtful gift to a custom chocolate moment, tell us what you have in mind. We’re all ears—and cocoa.</p>
+                        <a className="contact-hero__cta" href="#contact-form">Write to us <ArrowDown aria-hidden="true" /></a>
                     </div>
-
-                    {/* Contact Form */}
-                    <div className="md:w-2/3">
-                        <div className="contact-form-panel p-6 md:p-9 rounded-2xl">
-                            <div className="form-heading mb-7">
-                                <p className="eyebrow mb-2">Start a conversation</p>
-                                <h3 className="text-3xl font-bold font-serif text-gray-900 mb-2">Send us a Message</h3>
-                                <p className="text-sm text-gray-600">Tell us what you’re dreaming up. We’ll help make it delicious.</p>
-                            </div>
-
-                            {submitted ? (
-                                <div className="bg-green-50 text-green-800 p-4 rounded-lg mb-6 text-center">
-                                    <p className="font-bold">Thank you for your message!</p>
-                                    <p>We'll get back to you as soon as possible.</p>
-                                </div>
-                            ) : null}
-
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                    <div>
-                                        <label className="form-label block text-sm font-medium text-gray-700 mb-1">Your Name *</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            className={`form-input w-full border rounded-md shadow-sm ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
-                                        />
-                                        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                                    </div>
-                                    <div>
-                                        <label className="form-label block text-sm font-medium text-gray-700 mb-1">Your Email *</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            className={`form-input w-full border rounded-md shadow-sm ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
-                                        />
-                                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="form-label block text-sm font-medium text-gray-700 mb-1">Subject *</label>
-                                    <input
-                                        type="text"
-                                        name="subject"
-                                        value={formData.subject}
-                                        onChange={handleChange}
-                                        className={`form-input w-full border rounded-md shadow-sm ${errors.subject ? 'border-red-500' : 'border-gray-300'}`}
-                                    />
-                                    {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
-                                </div>
-                                <div>
-                                    <label className="form-label block text-sm font-medium text-gray-700 mb-1">Message *</label>
-                                    <textarea
-                                        name="message"
-                                        rows="5"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        className={`form-input w-full border rounded-md shadow-sm ${errors.message ? 'border-red-500' : 'border-gray-300'}`}
-                                    ></textarea>
-                                    {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
-                                </div>
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className={`form-submit w-full text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-                                >
-                                    {isSubmitting ? 'Sending...' : (
-                                        <>
-                                            <Send className="w-5 h-5" /> Send Message
-                                        </>
-                                    )}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                    <div className="contact-hero__promise" aria-label="Service promise"><MessageCircleHeart aria-hidden="true" /><p>Personal answers,<br /><strong>made with care.</strong></p><span>Usually within 1–2 business days</span></div>
                 </div>
-            </div >
+            </section>
+
+            <main className="contact-page contact-page--redesigned">
+                <div className="contact-layout container mx-auto px-4">
+                    <aside className="contact-details" aria-labelledby="contact-details-heading">
+                        <p className="contact-kicker">The details</p><h2 id="contact-details-heading">Come say hello.</h2>
+                        <p className="contact-details__intro">Whether it’s a question, a custom order, or an idea worth melting over, we’d love to hear it.</p>
+                        <ul className="contact-detail-list">
+                            <li><span className="contact-detail-icon"><MapPin aria-hidden="true" /></span><div><h3>Visit the studio</h3><p>Satdobato, Lalitpur<br />Nepal</p></div></li>
+                            <li><span className="contact-detail-icon"><Mail aria-hidden="true" /></span><div><h3>Send an email</h3><a href="mailto:chocolatesbyps@gmail.com">chocolatesbyps@gmail.com</a></div></li>
+                            <li><span className="contact-detail-icon"><Phone aria-hidden="true" /></span><div><h3>Give us a call</h3><a href="tel:+9779840099441">+977 9840099441</a></div></li>
+                        </ul>
+                        <div className="contact-socials"><p>Find little moments of joy</p><div>
+                            <a href="https://www.facebook.com/share/1A8HJtpNxX/" target="_blank" rel="noreferrer" aria-label="Follow Chocolates By PS on Facebook" className="social-link"><Facebook aria-hidden="true" /></a>
+                            <a href="https://www.instagram.com/chocolatesbyps?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noreferrer" aria-label="Follow Chocolates By PS on Instagram" className="social-link"><Instagram aria-hidden="true" /></a>
+                            <a href="https://www.tiktok.com/@chocolates.by.ps?is_from_webapp=1&sender_device=pc" target="_blank" rel="noreferrer" aria-label="Follow Chocolates By PS on TikTok" className="social-link"><Music2 aria-hidden="true" /></a></div></div>
+                    </aside>
+
+                    <section id="contact-form" className="contact-form-panel contact-form-panel--redesigned" aria-labelledby="message-heading">
+                        <div className="form-heading"><p className="contact-kicker">Start a conversation</p><h2 id="message-heading">Send us a note.</h2><p>Share a few details and we’ll take it from there.</p></div>
+                        {submitted && <div className="contact-success" role="status"><Check aria-hidden="true" /><div><strong>Your message is on its way.</strong><p>Thank you—we’ll be in touch soon.</p></div></div>}
+                        {submitError && <div className="contact-submit-error" role="alert">{submitError}</div>}
+                        <form onSubmit={handleSubmit} noValidate>
+                            {Object.keys(errors).length > 0 && <div ref={errorSummaryRef} className="contact-error-summary" role="alert" tabIndex="-1"><strong>Please correct the highlighted fields:</strong><ul>{Object.entries(errors).map(([field, message]) => <li key={field}><a href={`#${field}`}>{message}</a></li>)}</ul></div>}
+                            <div className="contact-form-grid">
+                                <div className="contact-field"><label htmlFor="name">Your name <span aria-hidden="true">*</span></label><input type="text" autoComplete="name" {...fieldProps('name')} />{errors.name && <p id="name-error" className="contact-field-error" role="alert">{errors.name}</p>}</div>
+                                <div className="contact-field"><label htmlFor="email">Email address <span aria-hidden="true">*</span></label><input type="email" autoComplete="email" inputMode="email" {...fieldProps('email')} />{errors.email && <p id="email-error" className="contact-field-error" role="alert">{errors.email}</p>}</div>
+                            </div>
+                            <div className="contact-field"><label htmlFor="subject">What can we help with? <span aria-hidden="true">*</span></label><input type="text" autoComplete="off" {...fieldProps('subject')} />{errors.subject && <p id="subject-error" className="contact-field-error" role="alert">{errors.subject}</p>}</div>
+                            <div className="contact-field"><label htmlFor="message">Your message <span aria-hidden="true">*</span></label><textarea rows="6" {...fieldProps('message')} />{errors.message && <p id="message-error" className="contact-field-error" role="alert">{errors.message}</p>}</div>
+                            <button type="submit" disabled={isSubmitting} className="contact-submit">{isSubmitting ? 'Sending your note…' : <><Send aria-hidden="true" /> Send message</>}</button>
+                        </form>
+                    </section>
+                </div>
+            </main>
         </>
     );
 };

@@ -2,7 +2,17 @@ import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { fetchBlogPosts } from '../utils/api';
 import SEO from '../components/SEO';
-import { ArrowUpRight, Search } from 'lucide-react';
+import { ArrowUpRight, CalendarDays, Search } from 'lucide-react';
+
+const truncateDescription = (description, maxLength = 144) => (
+    description.length > maxLength ? `${description.slice(0, maxLength).trimEnd()}…` : description
+);
+
+const formatArticleDate = (date) => new Intl.DateTimeFormat('en', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+}).format(new Date(`${date}T00:00:00`));
 
 const BlogList = () => {
     const [posts, setPosts] = useState([]);
@@ -77,18 +87,15 @@ const BlogList = () => {
                                                     loading="lazy"
                                                     className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"
                                                 />
+                                                <span className="journal-card__read">Read story <ArrowUpRight aria-hidden="true" /></span>
                                             </div>
                                             <div className="journal-card__body">
-                                                <div className="journal-card__tags">
-                                                    {post.tags.slice(0, 2).map(tag => (
-                                                        <span key={tag}>{tag}</span>
-                                                    ))}
-                                                </div>
+                                                <div className="journal-card__meta"><span><CalendarDays aria-hidden="true" /> {formatArticleDate(post.date)}</span><span>{post.tags[0]}</span></div>
                                                 <h2>{post.title}</h2>
-                                                <p>{post.excerpt}</p>
+                                                <p title={post.excerpt}>{truncateDescription(post.excerpt)}</p>
                                                 <div className="journal-card__footer">
-                                                    <span>{post.date}</span>
-                                                    <span className="journal-read-link">Read story <ArrowUpRight aria-hidden="true" /></span>
+                                                    <span>{post.tags.slice(1, 3).map(tag => `#${tag}`).join(' · ') || 'Chocolates By PS'}</span>
+                                                    <span className="journal-read-link">Explore <ArrowUpRight aria-hidden="true" /></span>
                                                 </div>
                                             </div>
                                         </Link>

@@ -39,21 +39,20 @@
             }
         ],
         "seo": {
-            "title": "Hazelnut Truffle Box - Chocolates By PS",
-            "description": "Buy handmade hazelnut truffles in Nepal."
+            "title": "Espresso Chocolates - Chocolates By PS",
+            "description": "Buy handmade Espresso Chocolates."
         },
         "inStock": true,
         "isFeatured": true
     },
     {
         "id": "p002",
-        "slug": "customized-dark-chocolates",
-        "title": "Customized Dark Chocolates",
-        "description": "Customized dark chocolates with your choice of nuts.",
+        "slug": "dark-chocolates",
+        "title": "Dark Chocolates",
+        "description": "Dark chocolates with your choice of pattern.",
         "images": [
-            "/images/products/featured_2.jpg",
-            "/images/products/bar.jpg",
-            "/images/products/dark_side.jpeg"
+            "/images/products/dark_side.jpeg",
+            "/images/products/bar.jpg"
         ],
         "price": 450,
         "currency": "NPR",
@@ -61,22 +60,21 @@
         "category": "gift-sets",
         "tags": [
             "customized",
-            "dark chocolate",
-            "nuts"
+            "dark chocolate"
         ],
         "variations": [],
         "seo": {
-            "title": "Customized Dark Chocolates - Chocolates By PS",
-            "description": "Customized dark chocolates with your choice of nuts."
+            "title": "Dark Chocolates - Chocolates By PS",
+            "description": "Dark chocolates with your choice of pattern."
         },
         "inStock": true,
         "isFeatured": true
     },
     {
         "id": "p003",
-        "slug": "customized-milk-chocolates",
-        "title": "Customized Milk Chocolates",
-        "description": "Customized milk chocolates with your choice of nuts.",
+        "slug": "milk-chocolates",
+        "title": "Milk Chocolates",
+        "description": "Milk chocolates with your choice of pattern.",
         "images": [
             "/images/products/milk_chocolate.jpg"
         ],
@@ -86,22 +84,21 @@
         "category": "gift-sets",
         "tags": [
             "customized",
-            "milk chocolate",
-            "nuts"
+            "milk chocolate"
         ],
         "variations": [],
         "seo": {
-            "title": "Customized Milk Chocolates - Chocolates By PS",
-            "description": "Customized milk chocolates with your choice of nuts."
+            "title": "Milk Chocolates - Chocolates By PS",
+            "description": "Milk chocolates with your choice of pattern."
         },
         "inStock": true,
         "isFeatured": true
     },
     {
         "id": "p004",
-        "slug": "customized-white-chocolates",
-        "title": "Customized White Chocolates",
-        "description": "Customized white chocolates with your choice of nuts.",
+        "slug": "white-chocolates",
+        "title": "White Chocolates",
+        "description": "White chocolates with your choice of pattern.",
         "images": [
             "/images/products/white_chocolate.jpeg"
         ],
@@ -111,22 +108,21 @@
         "category": "gift-sets",
         "tags": [
             "customized",
-            "white chocolate",
-            "nuts"
+            "white chocolate"
         ],
         "variations": [],
         "seo": {
-            "title": "Customized White Chocolates - Chocolates By PS",
-            "description": "Customized white chocolates with your choice of nuts."
+            "title": "White Chocolates - Chocolates By PS",
+            "description": "White chocolates with your choice of pattern."
         },
         "inStock": true,
         "isFeatured": true
     },
     {
         "id": "p005",
-        "slug": "customized-small-dark-chocolates",
-        "title": "Customized Small Dark Chocolates",
-        "description": "Customized Small dark chocolates with your choice of nuts.",
+        "slug": "small-dark-chocolates",
+        "title": "Small Dark Chocolates",
+        "description": "Small dark chocolates with your choice of nuts.",
         "images": [
             "/images/products/dark_small.jpeg",
             "/images/products/small_dark_side.jpeg"
@@ -137,22 +133,21 @@
         "category": "gift-sets",
         "tags": [
             "customized",
-            "small dark chocolate",
-            "nuts"
+            "small dark chocolate"
         ],
         "variations": [],
         "seo": {
-            "title": "Customized Small Dark Chocolates - Chocolates By PS",
-            "description": "Customized Small dark chocolates with your choice of nuts."
+            "title": "Small Dark Chocolates - Chocolates By PS",
+            "description": "Small dark chocolates with your choice of pattern."
         },
         "inStock": true,
         "isFeatured": true
     },
     {
         "id": "p006",
-        "slug": "customized-small-milk-chocolates",
-        "title": "Customized Small Milk Chocolates",
-        "description": "Customized small milk chocolates with your choice of nuts.",
+        "slug": "small-milk-chocolates",
+        "title": "Small Milk Chocolates",
+        "description": "Small milk chocolates with your choice of patterns.",
         "images": [
             "/images/products/milk_small.jpeg",
             "/images/products/small_milk_side.jpeg"
@@ -163,22 +158,21 @@
         "category": "gift-sets",
         "tags": [
             "customized",
-            "small milk chocolate",
-            "nuts"
+            "small milk chocolate"
         ],
         "variations": [],
         "seo": {
-            "title": "Customized Small Milk Chocolates - Chocolates By PS",
-            "description": "Customized small milk chocolates with your choice of nuts."
+            "title": "Small Milk Chocolates - Chocolates By PS",
+            "description": "Small milk chocolates with your choice of patterns."
         },
         "inStock": true,
         "isFeatured": true
     },
     {
         "id": "p007",
-        "slug": "customized-small-white-chocolates",
-        "title": "Customized Small White Chocolates",
-        "description": "Customized small white chocolates with your choice of nuts.",
+        "slug": "small-white-chocolates",
+        "title": "Small White Chocolates",
+        "description": "Small white chocolates with your choice of patterns.",
         "images": [
             "/images/products/white_small.jpeg",
             "/images/products/small_white_side.jpeg"
@@ -189,13 +183,105 @@
         "category": "gift-sets",
         "tags": [
             "customized",
-            "small white chocolate",
-            "nuts"
+            "small white chocolate"
         ],
         "variations": [],
         "seo": {
-            "title": "Customized Small White Chocolates - Chocolates By PS",
-            "description": "Customized small white chocolates with your choice of nuts."
+            "title": "Small White Chocolates - Chocolates By PS",
+            "description": "Small white chocolates with your choice of patterns."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p008",
+        "slug": "customized-bar-chocolates",
+        "title": "Customized Bar Chocolates",
+        "description": "Customize the bar chocolate with your choice of nuts.",
+        "images": [
+            "/images/products/featured_2.jpg",
+            "/images/products/bars.jpg"
+        ],
+        "price": 450,
+        "currency": "NPR",
+        "sku": "AP008",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "bar chocolate",
+            "nuts"
+        ],
+        "variations": [
+            {
+                "name": "Chocolate type",
+                "options": [
+                    {
+                        "label": "Dark",
+                        "priceModifier": 0,
+                        "sku": "AP008-1"
+                    },
+                    {
+                        "label": "Milk",
+                        "priceModifier": 0,
+                        "sku": "AP008-2"
+                    },
+                    {
+                        "label": "White",
+                        "priceModifier": 0,
+                        "sku": "AP008-3"
+                    }
+                ]
+            }
+        ],
+        "seo": {
+            "title": "Customizable Bar Chocolates - Chocolates By PS",
+            "description": "Customize the bar chocolates with your choice of nuts."
+        },
+        "inStock": true,
+        "isFeatured": true
+    },
+    {
+        "id": "p009",
+        "slug": "heart-chocolates",
+        "title": "Heart Chocolates",
+        "description": "Heart chocolates to gift your partner",
+        "images": [
+            "/images/products/customized_heart_choc.jpeg",
+            "/images/products/nutty_heart.jpg"
+        ],
+        "price": 350,
+        "currency": "NPR",
+        "sku": "AP009",
+        "category": "gift-sets",
+        "tags": [
+            "heart chocolate",
+            "nuts"
+        ],
+        "variations": [
+            {
+                "name": "Chocolate type",
+                "options": [
+                    {
+                        "label": "Dark",
+                        "priceModifier": 0,
+                        "sku": "AP009-1"
+                    },
+                    {
+                        "label": "Milk",
+                        "priceModifier": 0,
+                        "sku": "AP009-2"
+                    },
+                    {
+                        "label": "White",
+                        "priceModifier": 0,
+                        "sku": "AP009-3"
+                    }
+                ]
+            }
+        ],
+        "seo": {
+            "title": "Heart Chocolates - Chocolates By PS",
+            "description": "Heart chocolates for your partner."
         },
         "inStock": true,
         "isFeatured": true

@@ -1,73 +1,81 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { CalendarDays, ChevronLeft, ChevronRight, MapPin, Pause, Play } from 'lucide-react';
 
 const EventsCarousel = ({ events }) => {
+    const safeEvents = events ?? [];
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+    const [direction, setDirection] = useState('next');
+    const [reducedMotion, setReducedMotion] = useState(false);
 
-    const nextSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % events.length);
+    useEffect(() => {
+        const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const updatePreference = () => setReducedMotion(query.matches);
+        updatePreference();
+        query.addEventListener('change', updatePreference);
+        return () => query.removeEventListener('change', updatePreference);
+    }, []);
+
+    useEffect(() => {
+        if (safeEvents.length < 2 || isPaused || reducedMotion) return undefined;
+        const timer = window.setInterval(() => {
+            setDirection('next');
+            setCurrentIndex((index) => (index + 1) % safeEvents.length);
+        }, 5200);
+        return () => window.clearInterval(timer);
+    }, [safeEvents.length, isPaused, reducedMotion]);
+
+    if (!safeEvents.length) return null;
+
+    const selectEvent = (index, nextDirection = 'next') => {
+        setDirection(nextDirection);
+        setCurrentIndex(index);
     };
-
-    const prevSlide = () => {
-        setCurrentIndex((prev) => (prev - 1 + events.length) % events.length);
-    };
-
-    if (!events || events.length === 0) return null;
-
-    // Determine how many items to show based on screen width (simplified logic for now, assuming 1 for mobile, 2 for desktop if needed, but the design shows horizontal scroll or cards. The prompt asked for a carousel slider. I'll implement a card slider showing 1-2 items or just scrolling through them.)
-    // Actually, the previous design had them side-by-side. A carousel usually shows one or a few at a time.
-    // Let's implement a simple slider that shows one event at a time on mobile and maybe 2 on desktop, or just slides through them.
-    // Given the "carousel slider" requirement, I'll make it slide one by one or in groups.
-    // Let's stick to a simple responsive slider.
+    const event = safeEvents[currentIndex];
+    const [month, day] = event.date.split(' ');
 
     return (
-        <section className="events-section py-16 text-white">
-            <div className="events-shell container mx-auto px-4 py-10 md:py-12">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="events-intro md:w-1/3">
-                        <p className="eyebrow mb-3">The chocolate calendar</p>
-                        <h3 className="text-3xl font-bold section-title mb-2">Upcoming Events</h3>
-                        <p className="dark-muted mb-6">Join us for tastings and workshops.</p>
-
-                        {/* Navigation Buttons */}
-                        <div className="event-controls flex gap-2">
-                            <button
-                                onClick={prevSlide}
-                                className="p-2 rounded-full transition"
-                                aria-label="Previous event"
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={nextSlide}
-                                className="p-2 rounded-full transition"
-                                aria-label="Next event"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </div>
+        <section
+            className="events-section"
+            aria-roledescription="carousel"
+            aria-label="Upcoming chocolate events"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onFocusCapture={() => setIsPaused(true)}
+            onBlurCapture={(eventTarget) => {
+                if (!eventTarget.currentTarget.contains(eventTarget.relatedTarget)) setIsPaused(false);
+            }}
+        >
+            <div className="events-shell container mx-auto px-4">
+                <header className="events-header">
+                    <div>
+                        <p className="events-eyebrow">The chocolate calendar</p>
+                        <h2>Gather around something sweet.</h2>
+                        <p>Small, thoughtful events for chocolate lovers in our community.</p>
                     </div>
+                    <div className="event-controls" aria-label="Event carousel controls">
+                        <button type="button" onClick={() => selectEvent((currentIndex - 1 + safeEvents.length) % safeEvents.length, 'previous')} className="event-control" aria-label="Previous event"><ChevronLeft aria-hidden="true" /></button>
+                        <button type="button" onClick={() => selectEvent((currentIndex + 1) % safeEvents.length)} className="event-control" aria-label="Next event"><ChevronRight aria-hidden="true" /></button>
+                        <button type="button" onClick={() => setIsPaused((paused) => !paused)} className="event-control event-control--pause" aria-label={isPaused ? 'Play event slider' : 'Pause event slider'} aria-pressed={isPaused}>{isPaused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}</button>
+                    </div>
+                </header>
 
-                    <div className="md:w-2/3 w-full overflow-hidden">
-                        <div
-                            className="flex transition-transform duration-500 ease-in-out"
-                            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                        >
-                            {events.map((event) => (
-                                <div key={event.id} className="w-full md:w-1/2 flex-shrink-0 px-2">
-                                    <div className="event-card p-6 rounded-lg h-full border transition">
-                                        <div className="flex items-start justify-between mb-4">
-                                            <span className="text-amber-300 text-sm font-bold bg-amber-900/50 px-3 py-1 rounded-full">
-                                                {event.date}
-                                            </span>
-                                            <Calendar className="w-5 h-5 text-amber-400/50" />
-                                        </div>
-                                        <h4 className="font-bold text-xl mb-2">{event.title}</h4>
-                                        <p className="text-sm text-amber-100/80">{event.location}</p>
-                                    </div>
-                                </div>
-                            ))}
+                <div className="events-stage">
+                    <article key={event.id} className={`event-card event-card--active event-card--${direction}`} aria-roledescription="slide" aria-label={`${currentIndex + 1} of ${safeEvents.length}: ${event.title}`}>
+                        <div className="event-date-tile" aria-label={event.date}><CalendarDays aria-hidden="true" /><span>{month}</span><strong>{day}</strong></div>
+                        <div className="event-card__content">
+                            <p className="event-card__eyebrow">Upcoming at Chocolates By PS</p>
+                            <h3>{event.title}</h3>
+                            <p className="event-location"><MapPin aria-hidden="true" /> {event.location}</p>
+                            <div className="event-card-footer"><span>Details announced soon</span><span className="event-counter"><strong>{String(currentIndex + 1).padStart(2, '0')}</strong> / {String(safeEvents.length).padStart(2, '0')}</span></div>
                         </div>
+                    </article>
+                    <div className="event-pagination" aria-label="Choose an event">
+                        {safeEvents.map((item, index) => (
+                            <button key={item.id} type="button" onClick={() => selectEvent(index, index >= currentIndex ? 'next' : 'previous')} className={index === currentIndex ? 'is-active' : ''} aria-label={`Show ${item.title}`} aria-current={index === currentIndex ? 'true' : undefined}>
+                                <span>{item.date}</span>
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

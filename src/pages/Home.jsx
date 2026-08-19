@@ -56,6 +56,13 @@ const Home = () => {
         <>
             <SEO title="Home" />
             <Hero />
+            <section className="home-promise" aria-label="Our chocolate promise">
+                <div className="container mx-auto grid grid-cols-1 divide-y divide-[#f4d2a5]/15 px-4 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+                    <p><strong>Small-batch</strong><span>Made with patient attention</span></p>
+                    <p><strong>Gift-ready</strong><span>Beautifully made to share</span></p>
+                    <p><strong>From Nepal</strong><span>Local craft, elevated</span></p>
+                </div>
+            </section>
             <FeaturedProducts products={data.products} />
 
             {/* Event Highlights */}
@@ -64,7 +71,7 @@ const Home = () => {
             <BlogPreview posts={data.blogPosts} />
 
             {/* Direct product questions */}
-            <section className="bg-[#201415] py-16 text-center text-white border-y border-[#e7a86d]/15">
+            <section className="home-contact-strip py-16 text-center text-white">
                 <div className="container mx-auto px-4">
                     <h2 className="mb-3 text-3xl font-bold font-serif">Have a Question About a Product?</h2>
                     <p className="mx-auto mb-7 max-w-xl text-amber-100/80">
@@ -121,28 +128,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Location Section */}
-            <section className="home-location py-20">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl font-bold font-serif text-amber-900 mb-8">Visit Us</h2>
-                    <div className="map-frame max-w-4xl mx-auto h-[400px] rounded-xl overflow-hidden relative">
-                        <iframe
-                            src="https://www.google.com/maps?q=27.653897,85.321527&z=16&output=embed"
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0, display: 'block' }}
-                            allowFullScreen=""
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            title="Store Location"
-                        ></iframe>
-                    </div>
-                    <div className="mt-8">
-                        <p className="font-bold text-xl text-gray-900">Satdobato, Lalitpur</p>
-                        <p className="text-gray-600">Open Daily: 10 AM - 8 PM</p>
-                    </div>
-                </div>
-            </section>
         </>
     );
 };

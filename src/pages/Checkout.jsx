@@ -218,9 +218,15 @@ const Checkout = () => {
                                     <div><label className="checkout-label block text-xs mb-1">Longitude</label><input type="number" step="any" name="longitude" value={formData.longitude} onChange={handleChange} className="checkout-input w-full rounded-md text-sm" placeholder="85.321500" /></div>
                                 </div>
                             </div>
-                            <div>
-                                <label className="checkout-label block text-sm font-medium mb-1">Order Notes <span>(Optional)</span></label>
+                            <div className="special-note-section border-t border-[#dcc9bb] pt-5">
+                                <label className="checkout-label block text-sm font-bold mb-1" htmlFor="special-note">
+                                    Special Note <span>(Optional)</span>
+                                </label>
+                                <p className="checkout-muted text-xs mb-2">
+                                    Add a personal message or any special instructions to include with your order.
+                                </p>
                                 <textarea
+                                    id="special-note"
                                     name="notes"
                                     rows="3"
                                     value={formData.notes}
