@@ -23,16 +23,22 @@ export const CartProvider = ({ children }) => {
                 (item) => item.id === product.id && JSON.stringify(item.variation) === JSON.stringify(variation)
             );
 
-            let newItems = [...prevCart.items];
+            let newItems;
 
             if (existingItemIndex > -1) {
-                newItems[existingItemIndex].quantity += quantity;
+                // Keep the updater immutable. React may invoke updater
+                // functions more than once in development.
+                newItems = prevCart.items.map((item, index) => (
+                    index === existingItemIndex
+                        ? { ...item, quantity: item.quantity + quantity }
+                        : item
+                ));
             } else {
-                newItems.push({
+                newItems = [...prevCart.items, {
                     ...product,
                     quantity,
                     variation,
-                });
+                }];
             }
 
             return { ...prevCart, items: newItems };

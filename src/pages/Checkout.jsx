@@ -111,7 +111,8 @@ const Checkout = () => {
         e.preventDefault();
         const subject = encodeURIComponent(`New Order from ${formData.name}`);
         const body = encodeURIComponent(generateOrderText());
-        window.location.href = `mailto:74dc53defd08c9b20e6d0e755f72825e?subject=${subject}&body=${body}`;
+        const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=chocolatesbyps@gmail.com&su=${subject}&body=${body}`;
+        window.open(gmailComposeUrl, '_blank', 'noopener,noreferrer');
         // Optional: clearCart();
     };
 
@@ -267,6 +268,7 @@ const Checkout = () => {
                             <div className="space-y-3">
                                 <p className="checkout-muted text-sm mb-3">Select a method to send your order:</p>
                                 <button
+                                    type="button"
                                     onClick={handleEmailOrder}
                                     disabled={!formData.name || !formData.email}
                                     className="email-order w-full text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -274,6 +276,7 @@ const Checkout = () => {
                                     <Mail className="w-5 h-5" /> Send via Email
                                 </button>
                                 <button
+                                    type="button"
                                     onClick={handleWhatsAppOrder}
                                     disabled={!formData.name || !formData.phone}
                                     className="whatsapp-order w-full text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
