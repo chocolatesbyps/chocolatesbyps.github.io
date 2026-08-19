@@ -1,30 +1,28 @@
-name: Deploy to Vercel
+name: Deploy React App to GitHub Pages
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: production-deploy
+  group: pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Build and deploy production site
+  build:
     runs-on: ubuntu-latest
-    environment: production
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
-      - name: Check out source
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -33,17 +31,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint source
-        run: npm run lint
-
-      - name: Build application
+      - name: Build React application
         run: npm run build
 
-      - name: Pull Vercel project settings
-        run: npx --yes vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
 
-      - name: Build Vercel deployment
-        run: npx --yes vercel@latest build --prod --token="$VERCEL_TOKEN"
+      - name: Upload dist
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
-      - name: Deploy to Vercel
-        run: npx --yes vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
