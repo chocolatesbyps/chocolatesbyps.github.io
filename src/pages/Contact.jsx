@@ -65,7 +65,7 @@ const Contact = () => {
                 <div className="contact-hero__inner container mx-auto px-4">
                     <div>
                         <p className="contact-hero__eyebrow"><Sparkles aria-hidden="true" /> A little note can start something sweet</p>
-                        <h1 id="contact-heading">Let’s make<br /><em>something delicious.</em></h1>
+                        <h1 id="contact-heading"><em>Let’s make</em><br /><em>something delicious.</em></h1>
                         <p>From a thoughtful gift to a custom chocolate moment, tell us what you have in mind. We’re all ears—and cocoa.</p>
                         <a className="contact-hero__cta" href="#contact-form">Write to us <ArrowDown aria-hidden="true" /></a>
                     </div>

@@ -12,7 +12,7 @@ const FeaturedProducts = ({ products }) => {
                     </p>
                 </div>
 
-                <ProductGrid products={products} />
+                <ProductGrid products={products} className="featured-products-grid" />
 
                 <div className="text-center mt-12">
                     <a href="/category/all" className="outline-button inline-block font-bold py-3 px-8 rounded-full transition">

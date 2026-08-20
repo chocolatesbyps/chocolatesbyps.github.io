@@ -98,33 +98,13 @@ const Home = () => {
 
             {/* Testimonials Section */}
             <section className="home-testimonials py-20">
-                <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold font-serif text-center text-amber-900 mb-12">What Our Customers Say</h2>
-
-                    {/* Static Grid for first 3 */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                        {data.testimonials.slice(0, 3).map((testimonial) => (
-                            <div key={testimonial.id} className="testimonial-card p-8 rounded-2xl shadow-sm text-center">
-                                <p className="text-lg text-gray-700 italic mb-6">"{testimonial.quote}"</p>
-                                <div className="flex items-center justify-center gap-4">
-                                    <img
-                                        src={testimonial.photo || (testimonial.gender === 'female' ? 'https://avatar.iran.liara.run/public/girl' : 'https://avatar.iran.liara.run/public/boy')}
-                                        alt={testimonial.name}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
-                                    <div className="text-left">
-                                        <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
-                                        <p className="text-sm text-gray-500">{testimonial.location}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                <div className="container mx-auto px-4 testimonial-section-shell">
+                    <div className="testimonial-section-heading">
+                        <p className="eyebrow">Kind words, shared sweetly</p>
+                        <h2>What our customers say</h2>
+                        <p>From thoughtful gifts to everyday treats, every note means the world to us.</p>
                     </div>
-
-                    {/* Carousel for remaining */}
-                    {data.testimonials.length > 3 && (
-                        <TestimonialsCarousel testimonials={data.testimonials.slice(3)} />
-                    )}
+                    <TestimonialsCarousel testimonials={data.testimonials} />
                 </div>
             </section>
 

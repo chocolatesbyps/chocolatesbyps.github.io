@@ -2,62 +2,73 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const TestimonialsCarousel = ({ testimonials }) => {
+    const safeTestimonials = testimonials ?? [];
     const [currentIndex, setCurrentIndex] = useState(0);
+    if (!safeTestimonials.length) return null;
 
-    const nextSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-    };
-
-    if (!testimonials || testimonials.length === 0) return null;
+    const selectTestimonial = (index) => setCurrentIndex(index);
+    const previousTestimonial = () => selectTestimonial((currentIndex - 1 + safeTestimonials.length) % safeTestimonials.length);
+    const nextTestimonial = () => selectTestimonial((currentIndex + 1) % safeTestimonials.length);
 
     return (
-        <div className="max-w-4xl mx-auto relative">
-            <div className="overflow-hidden">
-                <div
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                >
-                    {testimonials.map((testimonial) => (
-                        <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                            <div className="bg-white p-8 rounded-2xl shadow-sm text-center">
-                                <Quote className="w-10 h-10 text-amber-200 mx-auto mb-6" />
-                                <p className="text-xl text-gray-700 italic mb-6">"{testimonial.quote}"</p>
-                                <div className="flex items-center justify-center gap-4">
-                                    <img
-                                        src={testimonial.photo || (testimonial.gender === 'female' ? 'https://avatar.iran.liara.run/public/girl' : 'https://avatar.iran.liara.run/public/boy')}
-                                        alt={testimonial.name}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
-                                    <div className="text-left">
-                                        <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
-                                        <p className="text-sm text-gray-500">{testimonial.location}</p>
-                                    </div>
+        <div
+            className="testimonial-carousel"
+            aria-roledescription="carousel"
+            aria-label="Customer testimonials"
+        >
+            <p className="sr-only" aria-live="polite">
+                Testimonial {currentIndex + 1} of {safeTestimonials.length}
+            </p>
+            <div className="testimonial-slider-frame">
+                {safeTestimonials.length > 1 && <button type="button" onClick={previousTestimonial} className="testimonial-side-control testimonial-side-control--previous" aria-label="Previous testimonial"><ChevronLeft aria-hidden="true" /></button>}
+                <div className="testimonial-viewport">
+                    <div
+                        className="testimonial-track"
+                        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+                    >
+                        {safeTestimonials.map((testimonial, index) => (
+                            <article
+                                key={testimonial.id}
+                                className="testimonial-slide"
+                                aria-roledescription="slide"
+                                aria-label={`${index + 1} of ${safeTestimonials.length}: ${testimonial.name}`}
+                                aria-hidden={index !== currentIndex}
+                            >
+                                <div className="testimonial-card">
+                                    <div className="testimonial-quote-mark" aria-hidden="true"><Quote /></div>
+                                    <blockquote>“{testimonial.quote}”</blockquote>
+                                    <footer className="testimonial-author">
+                                        <img
+                                            src={testimonial.photo || (testimonial.gender === 'female' ? '/images/girl_2.png' : '/images/boy_1.png')}
+                                            alt=""
+                                        />
+                                        <div>
+                                            <cite>{testimonial.name}</cite>
+                                            <p>{testimonial.location}</p>
+                                        </div>
+                                    </footer>
                                 </div>
-                            </div>
-                        </div>
-                    ))}
+                            </article>
+                        ))}
+                    </div>
                 </div>
+                {safeTestimonials.length > 1 && <button type="button" onClick={nextTestimonial} className="testimonial-side-control testimonial-side-control--next" aria-label="Next testimonial"><ChevronRight aria-hidden="true" /></button>}
             </div>
 
-            <button
-                onClick={prevSlide}
-                className="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-amber-50 text-amber-900 transition"
-                aria-label="Previous testimonial"
-            >
-                <ChevronLeft className="w-6 h-6" />
-            </button>
-
-            <button
-                onClick={nextSlide}
-                className="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-amber-50 text-amber-900 transition"
-                aria-label="Next testimonial"
-            >
-                <ChevronRight className="w-6 h-6" />
-            </button>
+            {safeTestimonials.length > 1 && (
+                <div className="testimonial-pagination" aria-label="Choose a testimonial">
+                    {safeTestimonials.map((testimonial, index) => (
+                        <button
+                            key={testimonial.id}
+                            type="button"
+                            onClick={() => selectTestimonial(index)}
+                            className={index === currentIndex ? 'is-active' : ''}
+                            aria-label={`Show testimonial from ${testimonial.name}`}
+                            aria-current={index === currentIndex ? 'true' : undefined}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
