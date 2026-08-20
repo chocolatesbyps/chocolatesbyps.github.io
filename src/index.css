@@ -539,6 +539,7 @@ html::-webkit-scrollbar-thumb:hover { background-color:rgba(129,76,48,.58); }
 .cart-page a:focus-visible, .cart-page button:focus-visible { outline:3px solid #bc711f; outline-offset:3px; }
 @media (min-width:640px) { .cart-items-panel-heading, .cart-item-list { padding-left:1.4rem; padding-right:1.4rem; } .cart-item { grid-template-columns:7rem minmax(0,1fr); } }
 @media (min-width:1024px) { .cart-shell { padding-top:2.75rem; } .cart-layout { gap:2.25rem; grid-template-columns:minmax(0,1fr) 22rem; } .cart-summary { position:sticky; top:6.25rem; } }
+@media (max-width:639px) { .cart-item { gap:.75rem; grid-template-columns:4.6rem minmax(0,1fr); } .cart-item-footer { align-items:stretch; flex-direction:column; gap:.65rem; } .cart-item-total { align-self:stretch; background:rgba(242,204,138,.18); border:1px solid rgba(174,105,38,.24); border-radius:.6rem; order:-1; padding:.68rem .75rem; text-align:right; } .cart-quantity { align-self:flex-start; } }
 @media (prefers-reduced-motion:reduce) { .cart-page *, .cart-page *::before, .cart-page *::after { scroll-behavior:auto !important; transition-duration:.01ms !important; } }
 
 /* Home events — one calm, unified module at every screen size. */
