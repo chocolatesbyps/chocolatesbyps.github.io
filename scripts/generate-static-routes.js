@@ -23,3 +23,8 @@ for (const route of ['blog', ...postSlugs.map((slug) => `blog/${slug}`)]) {
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, appShell);
 }
+
+// GitHub Pages serves this file when a visitor loads a client-side route
+// directly. The React router can then render the requested page instead of
+// showing GitHub's default "File not found" screen.
+fs.writeFileSync(path.join(distDirectory, '404.html'), appShell);
