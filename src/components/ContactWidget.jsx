@@ -2,8 +2,8 @@ import { MessageCircle, Phone } from 'lucide-react';
 
 const phoneNumber = '9779840099441';
 
-const ContactWidget = () => (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+const ContactWidget = ({ isChatOpen }) => (
+    <div className={`fixed bottom-24 right-5 z-40 flex flex-col items-end gap-3 transition-all duration-200 ${isChatOpen ? 'pointer-events-none translate-y-3 opacity-0' : 'translate-y-0 opacity-100'}`}>
         <div className="hidden rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow-lg sm:block">
             Questions? Message us directly
         </div>

@@ -1,14 +1,32 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Minus, Plus, ShieldCheck, ShoppingBag, Trash2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Minus, Plus, ShieldCheck, ShoppingBag, Tag, Trash2, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import SEO from '../components/SEO';
 
 const Cart = () => {
-    const { cart, updateQuantity, removeFromCart, clearCart, cartTotal } = useCart();
+    const { cart, updateQuantity, removeFromCart, clearCart, cartSubtotal, cartDiscount, cartTotal, appliedPromo, applyPromoCode, removePromoCode } = useCart();
     const itemCount = cart.items.reduce((total, item) => total + item.quantity, 0);
+    const [promoCode, setPromoCode] = useState('');
+    const [promoMessage, setPromoMessage] = useState('');
+    const [promoError, setPromoError] = useState('');
 
     const handleClearCart = () => {
         if (window.confirm('Are you sure you want to clear your cart?')) clearCart();
+    };
+
+    const handlePromoSubmit = (event) => {
+        event.preventDefault();
+        const result = applyPromoCode(promoCode);
+        setPromoError(result.success ? '' : result.message);
+        setPromoMessage(result.success ? result.message : '');
+        if (result.success) setPromoCode('');
+    };
+
+    const handleRemovePromo = () => {
+        removePromoCode();
+        setPromoError('');
+        setPromoMessage('Promo code removed.');
     };
 
     if (cart.items.length === 0) {
@@ -80,7 +98,22 @@ const Cart = () => {
                             <div className="cart-summary-card">
                                 <p className="cart-eyebrow">Order summary</p>
                                 <h2>Ready when you are.</h2>
-                                <div className="cart-summary-line"><span>Subtotal</span><strong>{cart.currency} {cartTotal.toFixed(2)}</strong></div>
+                                <div className="cart-promo-module">
+                                    {appliedPromo ? (
+                                        <div className="cart-promo-applied" role="status">
+                                            <span className="cart-promo-badge"><Check aria-hidden="true" /> {appliedPromo.code}</span>
+                                            <button type="button" onClick={handleRemovePromo} aria-label={`Remove ${appliedPromo.code} promo code`}><X aria-hidden="true" /> Remove</button>
+                                        </div>
+                                    ) : (
+                                        <form onSubmit={handlePromoSubmit} noValidate>
+                                            <label htmlFor="promo-code"><Tag aria-hidden="true" /> Promo code</label>
+                                            <div className="cart-promo-input-row"><input id="promo-code" value={promoCode} onChange={(event) => { setPromoCode(event.target.value); setPromoError(''); setPromoMessage(''); }} placeholder="Enter code" autoCapitalize="characters" aria-invalid={Boolean(promoError)} aria-describedby={promoError || promoMessage ? 'promo-feedback' : undefined} /><button type="submit">Apply</button></div>
+                                        </form>
+                                    )}
+                                    {(promoError || promoMessage) && <p id="promo-feedback" className={promoError ? 'cart-promo-feedback is-error' : 'cart-promo-feedback'} role={promoError ? 'alert' : 'status'}>{promoError || promoMessage}</p>}
+                                </div>
+                                <div className="cart-summary-line"><span>Subtotal</span><strong>{cart.currency} {cartSubtotal.toFixed(2)}</strong></div>
+                                {appliedPromo && <div className="cart-summary-line cart-summary-line--discount"><span>Promo · {appliedPromo.code}</span><strong>− {cart.currency} {cartDiscount.toFixed(2)}</strong></div>}
                                 <div className="cart-summary-line cart-summary-line--shipping"><span>Delivery</span><span>Calculated at checkout</span></div>
                                 <div className="cart-summary-total"><span>Total</span><strong>{cart.currency} {cartTotal.toFixed(2)}</strong></div>
                                 <Link to="/checkout" className="cart-primary-action"><span>Proceed to checkout</span><ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>

@@ -200,7 +200,7 @@
         "description": "Customize the bar chocolate with your choice of nuts.",
         "images": [
             "/images/products/featured_2.jpg",
-            "/images/products/bars.jpg"
+            "/images/products/almond_pumpkin_seed.jpeg"
         ],
         "price": 450,
         "currency": "NPR",
@@ -285,5 +285,29 @@
         },
         "inStock": true,
         "isFeatured": true
+    },
+    {
+        "id": "p010",
+        "slug": "dalmatian-chocolates",
+        "title": "Dalmatian Chocolates",
+        "description": "Dalmatian Chocolates - Mix of Dark and White Chocolates to tingle your taste.",
+        "images": [
+            "/images/products/dalmatian.jpeg"
+        ],
+        "price": 200,
+        "currency": "NPR",
+        "sku": "AP010",
+        "category": "gift-sets",
+        "tags": [
+            "customized",
+            "dalmatian chocolates"
+        ],
+        "variations": [],
+        "seo": {
+            "title": "Dalmatian Chocolates - Chocolates By PS",
+            "description": "Dalmatian Chocolates - Mix of Dark and White Chocolates to tingle your taste."
+        },
+        "inStock": true,
+        "isFeatured": false
     }
 ]

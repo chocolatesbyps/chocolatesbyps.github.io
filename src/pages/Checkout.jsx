@@ -9,7 +9,7 @@ import L from 'leaflet';
 const defaultLocation = [27.6539, 85.3215];
 
 const Checkout = () => {
-    const { cart, cartTotal } = useCart();
+    const { cart, cartSubtotal, cartDiscount, cartTotal, appliedPromo } = useCart();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -103,7 +103,9 @@ const Checkout = () => {
             text += `- ${item.quantity}x ${item.title}${variationText} @ ${cart.currency} ${itemPrice.toFixed(2)}/unit = ${cart.currency} ${(itemPrice * item.quantity).toFixed(2)}\n`;
         });
 
-        text += `\nTotal: ${cart.currency} ${cartTotal.toFixed(2)}`;
+        text += `\nSubtotal: ${cart.currency} ${cartSubtotal.toFixed(2)}\n`;
+        if (appliedPromo) text += `Promo (${appliedPromo.code}): -${cart.currency} ${cartDiscount.toFixed(2)}\n`;
+        text += `Total: ${cart.currency} ${cartTotal.toFixed(2)}`;
         return text;
     };
 
@@ -265,6 +267,8 @@ const Checkout = () => {
                             </div>
 
                             <div className="order-total border-t pt-4 mb-8">
+                                <div className="checkout-total-line"><span>Subtotal</span><span>{cart.currency} {cartSubtotal.toFixed(2)}</span></div>
+                                {appliedPromo && <div className="checkout-total-line checkout-total-line--discount"><span>Promo · {appliedPromo.code}</span><span>− {cart.currency} {cartDiscount.toFixed(2)}</span></div>}
                                 <div className="flex justify-between font-bold text-lg">
                                     <span>Total</span>
                                     <span>{cart.currency} {cartTotal.toFixed(2)}</span>

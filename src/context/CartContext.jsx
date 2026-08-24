@@ -3,6 +3,12 @@ import { getCart, saveCart, clearCart as clearStorageCart } from '../utils/stora
 
 const CartContext = createContext();
 
+// Add or update customer-facing promotions here. In a production checkout,
+// validate these codes again on the server before taking payment.
+const PROMO_CODES = {
+    SWEET10: { code: 'SWEET10', type: 'percentage', value: 10, description: '10% off your order' },
+};
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => useContext(CartContext);
 
@@ -83,12 +89,33 @@ export const CartProvider = ({ children }) => {
         clearStorageCart();
     };
 
+    const applyPromoCode = (code) => {
+        const normalizedCode = code.trim().toUpperCase();
+        const promotion = PROMO_CODES[normalizedCode];
+
+        if (!normalizedCode) return { success: false, message: 'Enter a promo code to continue.' };
+        if (!promotion) return { success: false, message: 'That promo code is not valid.' };
+        if (!cart.items.length) return { success: false, message: 'Add an item before applying a promo code.' };
+
+        setCart((previous) => ({ ...previous, promo: promotion }));
+        return { success: true, message: `${promotion.code} applied — ${promotion.description}.` };
+    };
+
+    const removePromoCode = () => {
+        setCart((previous) => ({ ...previous, promo: null }));
+    };
+
     const cartItemCount = cart.items.reduce((total, item) => total + item.quantity, 0);
 
-    const cartTotal = cart.items.reduce((total, item) => {
+    const cartSubtotal = cart.items.reduce((total, item) => {
         const price = item.variation ? (item.price + (item.variation.priceModifier || 0)) : item.price;
         return total + price * item.quantity;
     }, 0);
+    const appliedPromo = cart.promo && PROMO_CODES[cart.promo.code] ? PROMO_CODES[cart.promo.code] : null;
+    const cartDiscount = appliedPromo?.type === 'percentage'
+        ? Number((cartSubtotal * (appliedPromo.value / 100)).toFixed(2))
+        : 0;
+    const cartTotal = Number(Math.max(0, cartSubtotal - cartDiscount).toFixed(2));
 
     return (
         <CartContext.Provider
@@ -98,8 +125,13 @@ export const CartProvider = ({ children }) => {
                 updateQuantity,
                 removeFromCart,
                 clearCart,
+                applyPromoCode,
+                removePromoCode,
                 cartItemCount,
+                cartSubtotal,
+                cartDiscount,
                 cartTotal,
+                appliedPromo,
                 recentAddedItem,
             }}
         >

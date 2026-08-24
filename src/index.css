@@ -25,6 +25,61 @@
 :root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #2b1b18; background: #f6eee7; font-synthesis: none; text-rendering: optimizeLegibility; --night:#f6eee7; --panel:#fffaf5; --cream:#2b1b18; --muted:#735f57; --copper:#b96f43; --line:rgba(129,76,48,.18); }
 * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; min-width:320px; background:var(--night); } a { color:inherit; text-decoration:none; }
 .site-shell { background:var(--night); color:var(--cream); } .eyebrow { color:var(--copper); font-size:.68rem; font-weight:800; letter-spacing:.24em; text-transform:uppercase; } .section-title { color:var(--cream); font-family:Georgia,"Times New Roman",serif; letter-spacing:-.035em; } .section-copy { color:var(--muted); } .copper-button { background:var(--copper); color:#fffaf5; box-shadow:0 0 28px rgba(185,111,67,.2); } .copper-button:hover { background:#c98455; transform:translateY(-2px); } .outline-button { border:1px solid var(--line); color:var(--cream); } .outline-button:hover { border-color:var(--copper); color:var(--copper); background:rgba(185,111,67,.06); }
+
+/* Customer assistant */
+.customer-chatbot { bottom:1.25rem; position:fixed; right:1.25rem; z-index:50; }
+.chat-launcher { align-items:center; background:linear-gradient(135deg,#4a1b11,#7d3420); border:1px solid rgba(255,235,204,.24); border-radius:999px; box-shadow:0 12px 28px rgba(55,20,12,.3); color:#fffaf3; cursor:pointer; display:flex; font-size:.84rem; font-weight:800; gap:.55rem; min-height:3.5rem; padding:.5rem 1rem; transition:transform .2s ease,box-shadow .2s ease,background .2s ease; }
+.chat-launcher:hover { background:linear-gradient(135deg,#622314,#a2512f); box-shadow:0 16px 33px rgba(55,20,12,.38); transform:translateY(-2px); }
+.chat-launcher svg { height:1.35rem; width:1.35rem; }
+.chat-panel { background:#fffaf6; border:1px solid rgba(94,45,27,.2); border-radius:1.1rem; bottom:4.25rem; box-shadow:0 24px 60px rgba(48,20,13,.28); display:flex; flex-direction:column; max-height:min(43rem,calc(100svh - 6.5rem)); overflow:hidden; position:absolute; right:0; width:min(23.5rem,calc(100vw - 2.5rem)); }
+.chat-header { align-items:center; background:linear-gradient(115deg,#35130d,#63301e); color:#fff8ef; display:flex; flex:0 0 auto; gap:.72rem; padding:1rem; }
+.chat-agent-mark { align-items:center; background:#e7ad66; border-radius:50%; color:#3a170e; display:flex; height:2.3rem; justify-content:center; width:2.3rem; }
+.chat-agent-mark svg { height:1.1rem; width:1.1rem; }
+.chat-header p { font-family:Georgia,"Times New Roman",serif; font-size:1rem; font-weight:700; letter-spacing:-.02em; line-height:1; margin:0 0 .3rem; }
+.chat-header span { align-items:center; color:#ecd6c2; display:flex; font-size:.66rem; gap:.3rem; }
+.chat-header span i { background:#78cf84; border-radius:50%; height:.42rem; width:.42rem; }
+.chat-icon-button { align-items:center; background:transparent; border:0; border-radius:.45rem; color:#f9e4d0; cursor:pointer; display:flex; justify-content:center; margin-left:auto; padding:.35rem; }
+.chat-icon-button:hover { background:rgba(255,255,255,.12); }
+.chat-icon-button svg { height:1.1rem; width:1.1rem; }
+.chat-conversation { background:linear-gradient(180deg,#f7ede5,#fffaf6); display:flex; flex:1 1 auto; flex-direction:column; gap:.7rem; min-height:0; overflow-y:auto; padding:1rem; }
+.chat-message { border-radius:1rem; font-size:.84rem; line-height:1.5; max-width:88%; padding:.72rem .84rem; white-space:pre-wrap; }
+.chat-message--bot { align-self:flex-start; background:#fffdf9; border:1px solid rgba(102,53,34,.12); border-bottom-left-radius:.25rem; box-shadow:0 3px 10px rgba(71,35,24,.05); color:#593c31; }
+.chat-message--customer { align-self:flex-end; background:#6f321f; border-bottom-right-radius:.25rem; color:#fffaf5; }
+.chat-suggestions { display:flex; flex:0 0 auto; flex-wrap:wrap; gap:.45rem; padding:.7rem 1rem .2rem; }
+.chat-suggestions button { background:#fdf6ef; border:1px solid rgba(134,74,42,.25); border-radius:999px; color:#743b25; cursor:pointer; font-size:.7rem; font-weight:750; padding:.48rem .65rem; text-align:left; transition:background .2s ease,border-color .2s ease; }
+.chat-suggestions button:hover { background:#f6e1cf; border-color:#b96f43; }
+.chat-human-help { align-items:center; align-self:flex-start; background:transparent; border:0; color:#954c28; cursor:pointer; display:flex; font-size:.73rem; font-weight:800; gap:.38rem; margin:.42rem 1rem .1rem; padding:.35rem 0; }
+.chat-human-help:hover { color:#5c2415; text-decoration:underline; text-underline-offset:3px; }
+.chat-human-help svg { height:1rem; width:1rem; }
+.chat-composer { align-items:center; background:#fffdfa; border-top:1px solid rgba(102,53,34,.12); display:flex; flex:0 0 auto; gap:.5rem; padding:.7rem .8rem; }
+.chat-composer input { background:#f7eee7; border:1px solid transparent; border-radius:.65rem; color:#3e2219; font:inherit; font-size:.82rem; min-width:0; outline:none; padding:.72rem .75rem; width:100%; }
+.chat-composer input:focus { border-color:#bc754c; box-shadow:0 0 0 3px rgba(185,111,67,.15); }
+.chat-composer button, .chat-notify-button { align-items:center; background:#6d2d1d; border:0; border-radius:.65rem; color:#fffaf5; cursor:pointer; display:flex; flex:0 0 auto; justify-content:center; transition:background .2s ease,transform .2s ease; }
+.chat-composer button { height:2.55rem; width:2.55rem; }
+.chat-composer button:hover:not(:disabled), .chat-notify-button:hover { background:#934626; transform:translateY(-1px); }
+.chat-composer button:disabled { cursor:not-allowed; opacity:.48; }
+.chat-composer button svg { height:1.1rem; width:1.1rem; }
+.chat-contact-form { background:#fffdf9; border:1px solid rgba(143,75,43,.18); border-radius:.85rem; display:grid; gap:.48rem; padding:.85rem; }
+.chat-contact-heading { align-items:flex-start; color:#67301e; display:flex; gap:.45rem; margin-bottom:.2rem; }
+.chat-contact-heading svg { height:1rem; margin-top:.08rem; width:1rem; }
+.chat-contact-heading strong { display:block; font-size:.81rem; }
+.chat-contact-heading span { color:#80675c; display:block; font-size:.67rem; line-height:1.35; margin-top:.15rem; }
+.chat-contact-form label { color:#60483e; display:grid; font-size:.69rem; font-weight:800; gap:.25rem; }
+.chat-contact-form input { background:#fffaf5; border:1px solid rgba(101,55,37,.2); border-radius:.45rem; color:#3e2219; font:inherit; font-size:.8rem; outline:none; padding:.57rem .62rem; }
+.chat-contact-form input:focus { border-color:#b96f43; box-shadow:0 0 0 3px rgba(185,111,67,.14); }
+.chat-contact-form input[aria-invalid="true"] { border-color:#b53c31; }
+.chat-field-error { color:#a22e25; font-size:.65rem; margin:0; }
+.chat-notify-button { font-size:.74rem; font-weight:800; gap:.42rem; margin-top:.25rem; min-height:2.55rem; padding:.6rem .8rem; width:100%; }
+.chat-notify-button svg { height:.95rem; width:.95rem; }
+.chat-privacy-note { color:#8b756a; font-size:.62rem; line-height:1.35; margin:.05rem 0 0; text-align:center; }
+.chat-handoff-success { align-items:flex-start; align-self:flex-start; background:#e9f7ec; border:1px solid #b5e0bd; border-radius:.75rem; color:#245a32; display:flex; gap:.55rem; padding:.75rem; }
+.chat-handoff-success svg { flex:0 0 auto; height:1rem; margin-top:.12rem; width:1rem; }
+.chat-handoff-success strong, .chat-handoff-success span { display:block; }
+.chat-handoff-success strong { font-size:.78rem; }
+.chat-handoff-success span { font-size:.69rem; line-height:1.35; margin-top:.15rem; }
+.chat-launcher:focus-visible, .chat-panel button:focus-visible, .chat-panel input:focus-visible { outline:3px solid #dfaf5f; outline-offset:2px; }
+.sr-only { clip:rect(0,0,0,0); clip-path:inset(50%); height:1px; overflow:hidden; position:absolute; white-space:nowrap; width:1px; }
+@media (max-width:420px) { .customer-chatbot { bottom:.9rem; right:.9rem; } .chat-panel { bottom:4.05rem; width:calc(100vw - 1.8rem); } .chat-launcher span { display:none; } .chat-launcher { height:3.5rem; justify-content:center; padding:.5rem; width:3.5rem; } }
 @media (prefers-reduced-motion:no-preference) { .hero-orb { animation:drift 8s ease-in-out infinite; } @keyframes drift { 50% { transform:translate(18px,-14px) scale(1.04); } } }
 
 .site-header { background:rgba(255,250,245,.9); border-bottom:1px solid var(--line); backdrop-filter:blur(18px); }
@@ -435,6 +490,8 @@ html::-webkit-scrollbar-thumb:hover { background-color:rgba(129,76,48,.58); }
 .order-summary .text-gray-500 { color:#735f57; }
 .order-summary .border-gray-200 { border-color:rgba(129,76,48,.25); }
 .order-total { border-color:rgba(129,76,48,.25); }
+.checkout-total-line { color:#70564a; display:flex; font-size:.88rem; justify-content:space-between; margin-bottom:.7rem; }
+.checkout-total-line--discount { color:#28713d; font-weight:750; }
 .email-order { background:#4c87bd; }
 .email-order:hover { background:#5e99cf; }
 .whatsapp-order { background:#42a96b; }
@@ -515,8 +572,27 @@ html::-webkit-scrollbar-thumb:hover { background-color:rgba(129,76,48,.58); }
 .cart-summary-card::after { border:1px solid rgba(185,111,67,.16); border-radius:50%; content:""; height:17rem; pointer-events:none; position:absolute; right:-10rem; top:-12rem; width:17rem; box-shadow:0 0 0 1.75rem rgba(185,111,67,.045); }
 .cart-summary-card > * { position:relative; z-index:1; }
 .cart-summary h2 { font-size:2rem; margin-bottom:1.6rem; max-width:13rem; }
+.cart-promo-module { border-bottom:1px solid rgba(129,76,48,.18); margin-bottom:.1rem; padding:0 0 .85rem; }
+.cart-promo-module label { align-items:center; color:#664438; display:flex; font-size:.7rem; font-weight:850; gap:.36rem; letter-spacing:.07em; margin-bottom:.48rem; text-transform:uppercase; }
+.cart-promo-module label svg { color:#a25c22; height:.9rem; width:.9rem; }
+.cart-promo-input-row { display:flex; gap:.45rem; }
+.cart-promo-input-row input { background:rgba(255,253,248,.82); border:1px solid rgba(101,55,37,.23); border-radius:.52rem; color:var(--cart-cocoa); font:inherit; font-size:.78rem; font-weight:700; min-width:0; outline:none; padding:.62rem .7rem; text-transform:uppercase; width:100%; }
+.cart-promo-input-row input:focus { border-color:#b96f43; box-shadow:0 0 0 3px rgba(185,111,67,.14); }
+.cart-promo-input-row input[aria-invalid="true"] { border-color:#b53c31; }
+.cart-promo-input-row button { background:#6b2a18; border:0; border-radius:.52rem; color:#fffaf5; cursor:pointer; font-size:.74rem; font-weight:850; padding:.5rem .8rem; transition:background .2s ease,transform .2s ease; }
+.cart-promo-input-row button:hover { background:#934626; transform:translateY(-1px); }
+.cart-promo-applied { align-items:center; display:flex; justify-content:space-between; min-height:2.1rem; }
+.cart-promo-badge { align-items:center; background:#e4f4e5; border:1px solid #b5dfba; border-radius:999px; color:#236035; display:inline-flex; font-size:.71rem; font-weight:850; gap:.3rem; padding:.4rem .6rem; }
+.cart-promo-badge svg { height:.78rem; width:.78rem; }
+.cart-promo-applied button { align-items:center; background:transparent; border:0; color:#82462b; cursor:pointer; display:flex; font-size:.7rem; font-weight:800; gap:.22rem; padding:.3rem 0; }
+.cart-promo-applied button:hover { color:#4c2014; text-decoration:underline; text-underline-offset:3px; }
+.cart-promo-applied button svg { height:.85rem; width:.85rem; }
+.cart-promo-feedback { color:#29613a; font-size:.68rem; line-height:1.35; margin:.48rem 0 0; }
+.cart-promo-feedback.is-error { color:#aa3428; }
 .cart-summary-line { align-items:baseline; border-bottom:1px solid rgba(129,76,48,.18); color:#664438; display:flex; font-size:.88rem; gap:1rem; justify-content:space-between; padding:.8rem 0; }
 .cart-summary-line strong { color:var(--cart-cocoa); font-variant-numeric:tabular-nums; }
+.cart-summary-line--discount { color:#327042; }
+.cart-summary-line--discount strong { color:#26703a; }
 .cart-summary-line--shipping span:last-child { color:#896f61; font-size:.72rem; font-style:italic; text-align:right; }
 .cart-summary-total { align-items:baseline; color:var(--cart-cocoa); display:flex; font-size:1.15rem; font-weight:850; justify-content:space-between; padding:1.2rem 0; }
 .cart-summary-total strong { font-size:1.4rem; font-variant-numeric:tabular-nums; letter-spacing:-.04em; }
