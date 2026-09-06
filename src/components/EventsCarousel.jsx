@@ -39,7 +39,7 @@ const EventsCarousel = ({ events }) => {
                                 <p className="event-card__eyebrow">Upcoming at Chocolates By PS</p>
                                 <h3>{event.title}</h3>
                                 <p className="event-location"><MapPin aria-hidden="true" /> {event.location}</p>
-                                <div className="event-card-footer"><span>Details announced soon</span><span className="event-counter"><strong>{String(currentIndex + 1).padStart(2, '0')}</strong> / {String(safeEvents.length).padStart(2, '0')}</span></div>
+                                <div className="event-card-footer"><span>Do not miss the chance to attend!!</span><span className="event-counter"><strong>{String(currentIndex + 1).padStart(2, '0')}</strong> / {String(safeEvents.length).padStart(2, '0')}</span></div>
                             </div>
                         </article>
                         {safeEvents.length > 1 && <button type="button" onClick={() => selectEvent((currentIndex + 1) % safeEvents.length)} className="event-side-control event-side-control--next" aria-label="Next event"><ChevronRight aria-hidden="true" /></button>}
