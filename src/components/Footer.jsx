@@ -40,9 +40,9 @@ const Footer = () => {
                     <div className="footer-map-wrap">
                         <h4 className="mb-4 text-lg font-bold">Find Us</h4>
                         <div className="footer-map">
-                            <iframe src="https://www.google.com/maps?q=27.653897,85.321527&z=16&output=embed" title="Chocolates By PS location in Satdobato, Lalitpur" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d217.42718140840643!2d85.3214357327954!3d27.65380793983617!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb175b2c17262b%3A0x9ff61edb7664ff02!2sChocolates%20By%20PS!5e1!3m2!1sen!2sus!4v1788760343931!5m2!1sen!2sus&output=embed" title="Chocolates By PS location in Satdobato, Lalitpur" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
                         </div>
-                        <a className="footer-map-link" href="https://www.google.com/maps?q=27.653897,85.321527" target="_blank" rel="noopener noreferrer">Get directions</a>
+                        <a className="footer-map-link" href="https://maps.app.goo.gl/CNS9seDftKpYt3rK6" target="_blank" rel="noopener noreferrer">Get directions</a>
                     </div>
                 </div>
 
