@@ -1,26 +1,20 @@
 [
     {
         "id": 1,
-        "date": "OCT 25",
-        "title": "Chocolate Tasting Night",
-        "location": "Kupondole Store, 6 PM"
+        "date": "July 11",
+        "title": "Popup Stall at Civil Homes Saturday Market",
+        "location": "Dhapakhel, 8 AM"
     },
     {
         "id": 2,
-        "date": "NOV 12",
-        "title": "Truffle Making Workshop",
-        "location": "Kupondole Store, 2 PM"
+        "date": "July 14",
+        "title": "Popup Stall at King's College",
+        "location": "Babarmahal, 9 AM"
     },
     {
         "id": 3,
-        "date": "DEC 05",
-        "title": "Holiday Gift Wrapping",
-        "location": "Kupondole Store, 4 PM"
-    },
-    {
-        "id": 4,
-        "date": "DEC 24",
-        "title": "Christmas Eve Special",
-        "location": "Kupondole Store, All Day"
+        "date": "Aug 22",
+        "title": "Popup Stall at Yala Garden",
+        "location": "Kwalkhu, 11 AM"
     }
 ]

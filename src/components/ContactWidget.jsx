@@ -9,7 +9,7 @@ const ContactWidget = ({ isChatOpen }) => (
         </div>
         <div className="flex gap-2">
             <a
-                href={`viber://chat?number=%2B${phoneNumber}`}
+                href={`viber://chat?number=${phoneNumber}`}
                 aria-label="Contact us on Viber"
                 className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg transition hover:bg-purple-700 hover:scale-105"
                 title="Message us on Viber"

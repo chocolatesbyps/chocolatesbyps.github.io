@@ -217,7 +217,7 @@
                 "options": [
                     {
                         "label": "Dark",
-                        "priceModifier": 0,
+                        "priceModifier": 50,
                         "sku": "AP008-1"
                     },
                     {

@@ -87,7 +87,7 @@ const Home = () => {
                             <MessageCircle className="h-5 w-5" /> WhatsApp Us
                         </a>
                         <a
-                            href={`viber://chat?number=%2B${phoneNumber}`}
+                            href={`viber://chat?number=${phoneNumber}`}
                             className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-600 px-6 py-3 font-bold transition hover:bg-purple-700"
                         >
                             <Phone className="h-5 w-5" /> Message on Viber
